@@ -2,6 +2,7 @@ package Threads;
 
 import java.util.ArrayList;
 
+import javafx.*;
 import Algorithms.ShortestPathAlgo;
 import GUI.pacmanBoard;
 import GUI.pacmanBoard;
@@ -34,18 +35,78 @@ public class ThreadPaint extends Thread {
 	
 	public void  Play(Game game  )
 	{
-		for(int i = 0 ; i<400 ; i++)
+		boolean fruitEaten = false ;
+		double distance = 0 ;
+		for (Fruit fruit : pacman.getP_Path().getFruitsPath()) 
 		{
-			Point3D pacmanPoint = new Point3D(pacman.getP_Location()) ;
-			Point3D point = new Point3D(pacmanPoint.ix()+1 ,pacmanPoint.iy());
-			pacman.setPixelLocation(point);
-			myFrame.repaint();
-			try {
-				sleep(300);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			System.out.println("in first loop");
+			fruitEaten = false ;
+			int y ;
+			int newX ;
+			y = linearEquition(pacman, fruit) ;
+
+			while( fruitEaten == false)
+			{
+				System.out.println("in seconed loop");
+				distance = pacman.point_A_toPoint_B(fruit, myFrame.getWidth(), myFrame.getHeight(), game);
+				if(fruit.getFruitLocation().ix() > pacman.getP_Location().ix())
+				newX = pacman.getP_Location().ix() + 5 ; 
+				else
+					newX = pacman.getP_Location().ix() - 5 ; 
+
+				Point3D newPoint = new Point3D(newX , y) ;
+				pacman.setPixelLocation(newPoint);
+				if(distance < 1 )
+				{
+					fruitEaten = true ;
+				}
+				
+				try {
+					myFrame.repaint();
+
+					sleep(200);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("PACMAN ID : " +pacman.getId()+ "  distance------>"  + distance);
+//				fruitEaten = true ;
 			}
+		}		
+		
+//		
+//		int sizeOfFruit = pacman.getP_Path().getFruitsPath().size() ;
+//		for(int i = 0 ; i< 4; i++)
+//		{
+//			Point3D pacmanPoint = new Point3D(pacman.getP_Location()) ;
+//			Point3D point = new Point3D(pacmanPoint.ix()+1 ,pacmanPoint.iy());
+//			pacman.setPixelLocation(point);
+//			myFrame.repaint();
+////			pacman.getP_Path().getFruitsPath().remove(0) ;
+//			try {
+//				sleep(50);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+		}
+		
+		
+		public int linearEquition(Packman packman , Fruit fruit)
+		{
+			int pacman_x , pacman_y , fruit_x , fruit_y , ans_Y ;
+			double Incline ;
+			pacman_x =pacman.getP_Location().ix()  ;
+			pacman_y = pacman.getP_Location().iy() ;
+			fruit_x = fruit.getFruitLocation().ix();
+			fruit_y = fruit.getFruitLocation().iy();
+			
+			Incline = (pacman_y - fruit_y ) / (pacman_x - fruit_x) ;
+			
+			ans_Y = (int) Incline*(pacman_x+1 - fruit_x) + fruit_y ;
+			return ans_Y ;
+			
+			
 		}
 		
 		
@@ -55,70 +116,6 @@ public class ThreadPaint extends Thread {
 		
 		
 		
-		
-		
-		
-	}
-//
-//		ShortestPathAlgo spa = new ShortestPathAlgo(game  ); /*לכל פקמן יש פרי שהוא הולך אליו*/
-//		double distanceToFruit ;
-//		int fruitId ;
-//		Thread thread = new Thread() ;
-//		while(game.fruitSet.size() > 0)
-//		{
-//			 spa = new ShortestPathAlgo(game  ); /*לכל פקמן יש פרי שהוא הולך אליו*/
-//		for (Packman pacman : game.pacmanSet)
-//		{
-////			pacman.start();
-//		}	
-//		myFrame.repaint();
-//		}
-//		
-//		
-//		
-//		int counter = 0 ; /*לא לשכוח למחוק*/
-//		 /*************************************לא למחוק!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!***************************************/
-//		for (Packman pacman : game.pacmanSet) /*הדפסת מסלול של כל פקמן*/
-//		{
-////			System.out.println(	 "PACMAN "+myFrame.getDrawGame().pacmanSet.get(myFrame.getDrawGame().pacmanSet.indexOf(pacman)).getP_id() +"PATH : "+ myFrame.getDrawGame().pacmanSet.get(myFrame.getDrawGame().pacmanSet.indexOf(pacman)).getP_Path().toString());
-//			while(game.fruitSet.size()>0)
-//			{
-////				myFrame.repaint();
-//
-//				Fruit fruit =pacman.getP_Path().getFruitsPath().get(0) ;
-//				 distanceToFruit = pacman.point_A_toPoint_B(fruit  ,  mapW,  mapH , game);
-//				 double time  = pacman.TimeToFruit(fruit);
-//				 
-//						System.out.println("distance = " +distanceToFruit );
-//				 if( distanceToFruit < 1 )
-//				 {
-//					
-//						System.out.println(	 "PACMAN "+game.pacmanSet.get(game.pacmanSet.indexOf(pacman)).getP_id() +"PATH : "+ game.pacmanSet.get(game.pacmanSet.indexOf(pacman)).getP_Path().toString());
-//						counter++;
-//					    System.out.println("fruit "  +pacman.getP_Path().getFruitsPath().get(0).getId() + "was eaten!!!" );
-//					
-//						if(fruit.getId() == pacman.getP_Path().getFruitsPath().get(0).getId())
-//						{
-//							game.fruitSet.remove(fruit);
-//							 pacman.getP_Path().getFruitsPath().remove(0);
-//							 game.removefFruits(pacman);
-////							 spa = new ShortestPathAlgo(game , mapW , mapH ); /*גורם להעלמה של פקמנים*/
-//							
-//						}
-//						
-////						System.out.println(	 "PACMAN "+myFrame.getDrawGame().pacmanSet.get(myFrame.getDrawGame().pacmanSet.indexOf(pacman)).getP_id() +"PATH : "+ myFrame.getDrawGame().pacmanSet.get(myFrame.getDrawGame().pacmanSet.indexOf(pacman)).getP_Path().toString());
-//						 try {
-//								sleep(1000);;
-//							} catch (InterruptedException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
-//
-//					}
-//				
-//				 }
-//			myFrame.repaint();
-//System.out.println("out of while loop");
-//			}
-//	}
+	
+
 }
