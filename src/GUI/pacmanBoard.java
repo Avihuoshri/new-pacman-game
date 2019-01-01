@@ -318,25 +318,26 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		}
 		if(pathReady == true)
 		{
-			for (Packman pacman : game.pacmanSet) 
-			{
-				int fruit_X = pacman.getP_Path().getFruitsPath().get(0).getFruitLocation().ix() ;
-				int furit_Y = pacman.getP_Path().getFruitsPath().get(0).getFruitLocation().iy() ;
-				int pacman_X =pacman.getP_Location().ix() ;
-				int pacman_Y =pacman.getP_Location().iy() ;
-				g.drawLine(pacman_X*this.getWidth()/WIDTH , (pacman_Y+40) * this.getHeight()/HEIGHT,fruit_X*this.getWidth()/WIDTH, (furit_Y+40) * this.getHeight()/HEIGHT);
-			
-				for (Fruit fruitset : pacman.getP_Path().getFruitsPath()) {
-					
-					int size = pacman.getP_Path().getFruitsPath().size() ;
-					int fruitIndex = pacman.getP_Path().getFruitsPath().indexOf(fruitset) ;
-					if(fruitIndex != (size-1))
-					{
-						Fruit nextFruit = pacman.getP_Path().getFruitsPath().get(fruitIndex + 1) ;
-						g.drawLine(fruitset.getFruitLocation().ix()*this.getWidth()/WIDTH, (fruitset.getFruitLocation().iy()+40)* this.getHeight()/HEIGHT, nextFruit.getFruitLocation().ix()*this.getWidth()/WIDTH, (nextFruit.getFruitLocation().iy()+40)* this.getHeight()/HEIGHT);
-					}
-				}
-			}
+//			for (Packman pacman : game.pacmanSet) 
+//			{
+//				int fruit_X = pacman.getP_Path().getFruitsPath().get(0).getFruitLocation().ix() ;
+//				int furit_Y = pacman.getP_Path().getFruitsPath().get(0).getFruitLocation().iy() ;
+//				int pacman_X =pacman.getP_Location().ix() ;
+//				int pacman_Y =pacman.getP_Location().iy() ;
+//				g.drawLine(pacman_X*this.getWidth()/WIDTH , (pacman_Y+40) * this.getHeight()/HEIGHT,fruit_X*this.getWidth()/WIDTH, (furit_Y+40) * this.getHeight()/HEIGHT);
+//			
+//				for (Fruit fruitset : pacman.getP_Path().getFruitsPath()) 
+//				{
+//					
+//					int size = pacman.getP_Path().getFruitsPath().size() ;
+//					int fruitIndex = pacman.getP_Path().getFruitsPath().indexOf(fruitset) ;
+//					if(fruitIndex != (size-1))
+//					{
+//						Fruit nextFruit = pacman.getP_Path().getFruitsPath().get(fruitIndex + 1) ;
+//						g.drawLine(fruitset.getFruitLocation().ix()*this.getWidth()/WIDTH, (fruitset.getFruitLocation().iy()+40)* this.getHeight()/HEIGHT, nextFruit.getFruitLocation().ix()*this.getWidth()/WIDTH, (nextFruit.getFruitLocation().iy()+40)* this.getHeight()/HEIGHT);
+//					}
+//				}
+//			}
 		}
 	}
 		
@@ -403,6 +404,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		if(pacmanOn == true)
 		{
 			Packman  pacman = new Packman(pacmanIdCounter , e.getX()*WIDTH/this.getWidth() , e.getY()*HEIGHT/this.getHeight() , DEFULT_SPEED) ;
+			System.out.println(pacman.getP_Location());
 			pacmanIdCounter++ ;
 			game.pacmanSet.add(pacman) ;
 			repaint();
