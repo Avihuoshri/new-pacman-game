@@ -1,5 +1,6 @@
 package Threads;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import javafx.*;
@@ -74,17 +75,21 @@ public class ThreadPaint extends Thread {
 				{
 					fruitEaten = true ;
 					game.fruitSet.remove(fruit) ;
-					pacman.getP_Path().getFruitsPath().remove(0) ;					
+					pacman.getP_Path().getFruitsPath().remove(0) ;			
+					myFrame.setPaintFruit();
 //					ShortestPathAlgo spa = new ShortestPathAlgo(game);
 				}
 				paintGame pb = new paintGame(myFrame);
+				paintGame pb2 = new paintGame(myFrame);
 				pb.start();
 				try {
 					sleep(50);
+				
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				pb2.start();
 				System.out.println("PACMAN ID : " +pacman.getId()+ "  distance------>"  + distance);
 //			}
 		}

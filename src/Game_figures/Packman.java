@@ -1,8 +1,10 @@
 package Game_figures;
 
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -17,6 +19,7 @@ public class Packman extends Thread
 	private final int EATTING_RADIUS = 1 ;
 	private int p_id ;
 	private int p_Weight ;
+	private int animationIndex  = 0 ;
 	private Point3D c_loction ;
 	private Point3D pixel_loction ;
 	private Path p_Path ;
@@ -25,6 +28,7 @@ public class Packman extends Thread
 	CoordsConverter converter ;
 	private BufferedImage p_Image ;
 	Map map = new Map() ;
+	ArrayList<String> animatedbatman = new ArrayList() ;
 	
 	public Packman(int pacmanId , double pixel_X , double pixel_Y , double speed   )
 	{
@@ -32,7 +36,12 @@ public class Packman extends Thread
 		pixel_loction =new Point3D(pixel_X , pixel_Y  ) ;    /*ατιχρμιν*/
 		converter = new CoordsConverter() ;
 		p_Path = new Path() ;
-		p_FileImage = new File("Images//Batman.png");
+		 setAnimation() ;
+		p_FileImage = new File(animatedbatman.get(animationIndex));
+		if(animationIndex == 8)
+		{
+			animationIndex=0 ;
+		}
 		try 
 		{
 			p_Image = ImageIO.read(p_FileImage);
@@ -52,6 +61,13 @@ public class Packman extends Thread
 		}
 	}
 	
+	private void setAnimation()
+	{
+		for(int i = 1 ; i<8 ; i++)
+		{
+			animatedbatman.add("Images//Animated batman//"+i+".png");
+		}
+	}
 	public double point_A_toPoint_B(Fruit destination , int mapWidth , int mapHeight , Game game )
 	{
 		double x , y  ;
@@ -128,6 +144,19 @@ public class Packman extends Thread
 	
 	public BufferedImage getP_Image() 
 	{
+		p_FileImage = new File(animatedbatman.get(animationIndex));
+		animationIndex++ ;
+		if(animationIndex == 7)
+		{
+			animationIndex=0 ;
+		}
+		try 
+		{
+			p_Image = ImageIO.read(p_FileImage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return p_Image;
 	}
 	

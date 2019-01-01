@@ -18,8 +18,8 @@ import Geom.Point3D;
 public class Game 
 {
 	final int COLUMNS_NUM = 7 ;
-//	public ArrayList<Box> boxSet =new  ArrayList();
-//	public ArrayList<Ghost> ghostSet = new ArrayList();
+	public ArrayList<Box> boxSet =new  ArrayList();
+	public ArrayList<Ghost> ghostSet = new ArrayList();
 	public ArrayList<Packman> pacmanSet = new ArrayList();
 	public ArrayList<Fruit> fruitSet =new  ArrayList();
 
@@ -78,21 +78,21 @@ public class Game
 					System.out.println("fruit\t" +id +" \tX-acsis -->\t" + pixels.ix() + "\t   Y-acsis -->\t" +pixels.iy() + "\taltitude\t" + altitude +  "\tlongtitude\t"+longtitude);
 							fruitSet.add(new Fruit(id, pixels.ix(), pixels.iy() , "Images//Batman_logo.png"));
 						}
-//						
-//						else if(elements[0].equals("B"))
-//						{
-//							radius = Double.parseDouble(elements[6]) ;
-//							boxCoordinates = new Point3D(speed ,radius );
-//							boxCoordinates = map.coordsToPixels(boxCoordinates);
-//							boxSet.add(new Box(pixels , boxCoordinates)) ;
-//						}
-//						
-//						else if(elements[0].equals("G"))
-//						{
-//							radius = Double.parseDouble(elements[6]) ;
-//							ghostSet.add(new Ghost(id , speed , pixels)) ;
-//							
-//						}
+						
+						else if(elements[0].equals("B"))
+						{
+							radius = Double.parseDouble(elements[6]) ;
+							boxCoordinates = new Point3D(speed ,radius );
+							boxCoordinates = map.coordsToPixels(boxCoordinates);
+							boxSet.add(new Box(pixels , boxCoordinates)) ;
+						}
+						
+						else if(elements[0].equals("G"))
+						{
+							radius = Double.parseDouble(elements[6]) ;
+							ghostSet.add(new Ghost(id , speed , pixels)) ;
+							
+						}
 						
 					}	 
 					

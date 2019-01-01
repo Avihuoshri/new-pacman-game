@@ -10,7 +10,7 @@ public class paintGame extends Thread
 	{
 		myFrame = pb ;
 	}
-	public void run()
+	public   void run()
 	{
 		myFrame.repaint();
 		try {
@@ -19,5 +19,7 @@ public class paintGame extends Thread
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		myFrame.repaint();
+	
 	}
 }

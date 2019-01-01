@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
@@ -13,6 +14,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -28,8 +30,10 @@ import javax.swing.border.EmptyBorder;
 import Algorithms.SaveGameToCsv;
 import Algorithms.ShortestPathAlgo;
 import Coords.Map;
+import Game_figures.Box;
 import Game_figures.Fruit;
 import Game_figures.Game;
+import Game_figures.Ghost;
 import Game_figures.Packman;
 import Geom.Point3D;
 import Threads.ThreadPaint;
@@ -81,6 +85,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 	boolean fruit_4_On = false ;
 	boolean box_On     = false ;
 	boolean pathReady  = false ;
+	boolean paintFruit = true ;
 	double widthRatio  ;
 	double heightRatio ;
 	private int fruitIdCounter;
@@ -301,20 +306,28 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		Thread thread = new Thread();
 		g.drawImage(arielMap,10 ,55, this.getWidth()-17, this.getHeight()-64, this) ;
 		
-		for (Fruit fruit : game.fruitSet) 
-		{
-			int x = fruit.getFruitLocation().ix()*this.getWidth()/WIDTH ;
-			int y = (fruit.getFruitLocation().iy()+40)*this.getHeight()/HEIGHT;
-			int width  = 20  ;
-			int height = 20 ;
-			BufferedImage fruitImage = fruit.getFruitImage() ;
+//		if(paintFruit == true )
+//		{
+			for (Fruit fruit : game.fruitSet) 
+			{
+				int x = fruit.getFruitLocation().ix()*this.getWidth()/WIDTH ;
+				int y = (fruit.getFruitLocation().iy()+40)*this.getHeight()/HEIGHT;
+				int width  = 20  ;
+				int height = 20 ;
+				BufferedImage fruitImage = fruit.getFruitImage() ;
+				
+				g.drawImage(fruit.getFruitImage(),x , y, width, height, this) ;
+				paintFruit = false ;
 			
-			g.drawImage(fruit.getFruitImage(),x , y, width, height, this) ;
-		}
+			}
+//		}
 		
 		for (Packman pacman : game.pacmanSet) 
 		{
-			g.drawImage(pacman.getP_Image(), pacman.getP_Location().ix()*this.getWidth()/WIDTH,(int) (pacman.getP_Location().iy()+40)*this.getHeight()/HEIGHT, 30, 30, this);
+			AffineTransform at = AffineTransform.getTranslateInstance(pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy()+40)*this.getHeight()/HEIGHT);
+			at.rotate(Math.toRadians(45));
+			Graphics2D g2d = (Graphics2D) g ;
+			g2d.drawImage(pacman.getP_Image(), at, this);
 		}
 		if(pathReady == true)
 		{
@@ -338,6 +351,16 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 //					}
 //				}
 //			}
+		}
+		
+		for (Box box : game.boxSet) 
+		{
+			g.fillRect((box.getLowerPoint().ix()+58)*this.getWidth()/WIDTH, (box.getUpperPoint().iy()+20)* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight());
+		}
+		
+		for (Ghost ghost : game.ghostSet) 
+		{
+			g.drawImage(ghost.getG_image(), ghost.getG_point().ix()*this.getWidth()/WIDTH , ghost.getG_point().iy() *this.getHeight()/HEIGHT, 40, 40, this) ;
 		}
 	}
 		
@@ -384,6 +407,10 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 	public int getMapWidth()
 	{
 		return WIDTH ;
+	}
+	public void setPaintFruit()
+	{
+		paintFruit = true ;
 	}
 	@Override
 	public void componentResized(ComponentEvent e) {
