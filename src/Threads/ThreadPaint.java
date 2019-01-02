@@ -42,7 +42,7 @@ public class ThreadPaint extends Thread {
 		{
 
 			Fruit fruit = pacman.getP_Path().getFruitsPath().get(0);
-			System.out.println("in first loop");
+//			System.out.println("in first loop");
 			fruitEaten = false ;
 			int y ;
 			int newX = pacman.getP_Location().ix() ;
@@ -88,7 +88,7 @@ public class ThreadPaint extends Thread {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("PACMAN ID : " +pacman.getId()+ "  distance------>"  + distance);
+//				System.out.println("PACMAN ID : " +pacman.getId()+ "  distance------>"  + distance);
 //			}
 		}
 		}		

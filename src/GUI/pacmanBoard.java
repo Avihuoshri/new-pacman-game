@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
@@ -40,6 +41,11 @@ import Geom.Point3D;
 import Threads.ThreadPaint;
 
 public class pacmanBoard extends JFrame implements MouseListener , ComponentListener {
+	
+	public class paintGame extends JPanel
+	{
+		
+	}
 
 	private JPanel contentPane;
 	public	 int WIDTH = 1433 ;/*1433*/
@@ -47,7 +53,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 	
 	private final double DEFULT_SPEED = 1;
 
-	File mapFile                = new File("Images/Ariel1.png");
+	File mapFile                = new File("Images/Ariel1comic.png");
 	File fruit1File             = new File("Images/orange monster.png");
 	String pacmanImage          ="Images/boaz.png" ;
 	String amirFigure           ="Images/Amir.png" ;
@@ -306,16 +312,17 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 	
 	public void paint(Graphics g)
 	{
-		Thread thread = new Thread();
-		g.drawImage(arielMap,10 ,55, this.getWidth()-17, this.getHeight()-64, this) ;
+		Image image = createImage(5000,5000);
+		Graphics g1 = image.getGraphics();
+		g1.drawImage(arielMap,10 ,55, this.getWidth()-17, this.getHeight()-64, this) ;
 		
 		for (Box box : game.boxSet) 
 		{
-			g.fillRect((box.getLowerPoint().ix()+58)*this.getWidth()/WIDTH, (box.getUpperPoint().iy()+20)* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight());
+			g1.fillRect((box.getLowerPoint().ix()+58)*this.getWidth()/WIDTH, (box.getUpperPoint().iy()+20)* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight());
 		}
 		for (Ghost ghost : game.ghostSet) 
 		{
-			g.drawImage(ghost.getG_image(), ghost.getG_point().ix()*this.getWidth()/WIDTH , ghost.getG_point().iy() *this.getHeight()/HEIGHT, 40, 40, this) ;
+			g1.drawImage(ghost.getG_image(), ghost.getG_point().ix()*this.getWidth()/WIDTH , ghost.getG_point().iy() *this.getHeight()/HEIGHT, 40, 40, this) ;
 		}
 //		if(paintFruit == true )
 //		{
@@ -323,9 +330,9 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		for (Packman pacman : game.pacmanSet) 
 		{
 			AffineTransform at = AffineTransform.getTranslateInstance(pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy()+40)*this.getHeight()/HEIGHT);
-			at.rotate(Math.toRadians(0));
+			at.rotate(Math.toRadians(45));
 			Graphics2D g2d = (Graphics2D) g ;
-			g2d.drawImage(pacman.getP_Image(), at, this);
+			g1.drawImage(pacman.getP_Image(), pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy()+40)*this.getHeight()/HEIGHT, this);
 		}
 		if(pathReady == true)
 		{
@@ -362,12 +369,12 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			int height = 20 ;
 			BufferedImage fruitImage = fruit.getFruitImage() ;
 			
-			g.drawImage(fruit.getFruitImage(),x , y, width, height, this) ;
+			g1.drawImage(fruit.getFruitImage(),x , y, width, height, this) ;
 //			paintFruit = false ;
 //		
 //		}
 	}
-		
+		g.drawImage(image,0,0,this);
 	}
 		
 	
