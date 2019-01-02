@@ -80,7 +80,6 @@ public class ThreadPaint extends Thread {
 //					ShortestPathAlgo spa = new ShortestPathAlgo(game);
 				}
 				paintGame pb = new paintGame(myFrame);
-				paintGame pb2 = new paintGame(myFrame);
 				pb.start();
 				try {
 					sleep(50);
@@ -89,7 +88,6 @@ public class ThreadPaint extends Thread {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				pb2.start();
 				System.out.println("PACMAN ID : " +pacman.getId()+ "  distance------>"  + distance);
 //			}
 		}

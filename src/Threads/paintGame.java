@@ -12,13 +12,13 @@ public class paintGame extends Thread
 	}
 	public   void run()
 	{
-		myFrame.repaint();
 		try {
-			sleep(200);
+			sleep(0);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		myFrame.repaint();
 	
 	}
