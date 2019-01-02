@@ -55,13 +55,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 
 	File mapFile                = new File("Images/Ariel1comic.png");
 	File fruit1File             = new File("Images/orange monster.png");
-	String pacmanImage          ="Images/boaz.png" ;
-	String amirFigure           ="Images/Amir.png" ;
-	String sapirFigure          ="Images/Sapir.png" ;
-	String avihuFigure          ="Images/Avihu.png" ;
-	String yellowMonsterImage   ="Images/yellow monster.png";
-	String orangeMonsterImage   ="C:\\Users\\Avihu\\workspace2\\PACMAN\\Images\\orange monster.png" ;
-	String lightBlueMonsterImage="Images/light blue monster.png" ;
+
 	String clickedFruitImage    ="Images/Batman_logo.png" ;
 	BufferedImage arielMap ;
 	BufferedImage pacmanOrFruitImage ;
@@ -98,7 +92,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 	private int fruitIdCounter;
 	private int pacmanIdCounter;
 	private int save_counter = 1 ;
-
+	Eatting_effect effect ;
 	
 	/**
 	 * Create the frame.
@@ -115,7 +109,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 	
 	private void init()
 	{
-//		setBounds(0, 0, WIDTH, HEIGHT);
+		effect = new Eatting_effect();
 		MenuBar menuBar = new MenuBar() ;
 		Menu openOrSave = new Menu("Open / Save") ;		
 		ImageIcon pacmanIcon = new ImageIcon("Pacman-icon .png");
@@ -290,6 +284,11 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 
 	
 
+	public Eatting_effect getEffect() {
+		return effect;
+	}
+
+
 	/**
 	 * Launch the application.
 	 */
@@ -312,38 +311,68 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 	
 	public void paint(Graphics g)
 	{
-		Image image = createImage(5000,5000);
+		Image image = createImage(2000,2000);
+		Image effectI = createImage(5000,5000);
 		Graphics g1 = image.getGraphics();
-		g1.drawImage(arielMap,10 ,55, this.getWidth()-17, this.getHeight()-64, this) ;
-		
+		Graphics g2 = effectI.getGraphics();
+		if(effect.activate == true)
+		{
+			g2.drawImage(arielMap,10 ,55, this.getWidth()-17, this.getHeight()-64, this) ;
+		}
+		else
+			g1.drawImage(arielMap,10 ,55, this.getWidth()-17, this.getHeight()-64, this) ;
+
 		for (Box box : game.boxSet) 
 		{
-			g1.fillRect((box.getLowerPoint().ix()+58)*this.getWidth()/WIDTH, (box.getUpperPoint().iy()+20)* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight());
+			if(effect.activate == true)
+			{          
+				/**//**//*box.getBoxImage(), (box.getLowerPoint().ix()+58)*this.getWidth()/WIDTH, (box.getUpperPoint().iy()+20)* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight(), this*/
+				g2.drawImage(box.getBoxImage(), (box.getLowerPoint().ix())*this.getWidth()/WIDTH, (box.getUpperPoint().iy())* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight(), this);
+	//			g1.fillRect((box.getLowerPoint().ix())*this.getWidth()/WIDTH, (box.getUpperPoint().iy())* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight());
+			}
+			else
+				g1.drawImage(box.getBoxImage(), (box.getLowerPoint().ix())*this.getWidth()/WIDTH, (box.getUpperPoint().iy())* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight(), this);
+
 		}
 		for (Ghost ghost : game.ghostSet) 
 		{
-			g1.drawImage(ghost.getG_image(), ghost.getG_point().ix()*this.getWidth()/WIDTH , ghost.getG_point().iy() *this.getHeight()/HEIGHT, 40, 40, this) ;
+			if(effect.activate == true)
+			{
+				g2.drawImage(ghost.getG_image(), ghost.getG_point().ix()*this.getWidth()/WIDTH , ghost.getG_point().iy() *this.getHeight()/HEIGHT, 40, 40, this) ;
+			}
+			else
+				g1.drawImage(ghost.getG_image(), ghost.getG_point().ix()*this.getWidth()/WIDTH , ghost.getG_point().iy() *this.getHeight()/HEIGHT, 40, 40, this) ;
+
 		}
 //		if(paintFruit == true )
 //		{
 //		fruitPanel.paint();
 		for (Packman pacman : game.pacmanSet) 
 		{
-			AffineTransform at = AffineTransform.getTranslateInstance(pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy()+40)*this.getHeight()/HEIGHT);
+			AffineTransform at = AffineTransform.getTranslateInstance(pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy())*this.getHeight()/HEIGHT);
 			at.rotate(Math.toRadians(45));
 			Graphics2D g2d = (Graphics2D) g ;
-			g.drawImage(pacman.getP_Image(), pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy()+40)*this.getHeight()/HEIGHT, this);
-		}
-		if(pathReady == true)
-		{
+			if(effect.activate == true)
+			{
+				g2.drawImage(pacman.getP_Image(), pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy())*this.getHeight()/HEIGHT, this);
+			}
+			else
+				g1.drawImage(pacman.getP_Image(), pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy())*this.getHeight()/HEIGHT, this);
+
+			}
+//		if(pathReady == true)
+//		{
+//			
 //			for (Packman pacman : game.pacmanSet) 
 //			{
+//				if(pacman.getP_Path().getFruitsPath().size() >0)
+//				{
 //				int fruit_X = pacman.getP_Path().getFruitsPath().get(0).getFruitLocation().ix() ;
 //				int furit_Y = pacman.getP_Path().getFruitsPath().get(0).getFruitLocation().iy() ;
 //				int pacman_X =pacman.getP_Location().ix() ;
-//				int pacman_Y =pacman.getP_Location().iy() ;
-//				g.drawLine(pacman_X*this.getWidth()/WIDTH , (pacman_Y+40) * this.getHeight()/HEIGHT,fruit_X*this.getWidth()/WIDTH, (furit_Y+40) * this.getHeight()/HEIGHT);
-//			
+//				int pacman_Y =pacman.getP_Location().iy() ; /*pacman_Y+40*/														/*furit_Y+40*/
+//				g1.drawLine(pacman_X*this.getWidth()/WIDTH , (pacman_Y) * this.getHeight()/HEIGHT,fruit_X*this.getWidth()/WIDTH, (furit_Y) * this.getHeight()/HEIGHT);
+//				}
 //				for (Fruit fruitset : pacman.getP_Path().getFruitsPath()) 
 //				{
 //					
@@ -351,30 +380,48 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 //					int fruitIndex = pacman.getP_Path().getFruitsPath().indexOf(fruitset) ;
 //					if(fruitIndex != (size-1))
 //					{
-//						Fruit nextFruit = pacman.getP_Path().getFruitsPath().get(fruitIndex + 1) ;
-//						g.drawLine(fruitset.getFruitLocation().ix()*this.getWidth()/WIDTH, (fruitset.getFruitLocation().iy()+40)* this.getHeight()/HEIGHT, nextFruit.getFruitLocation().ix()*this.getWidth()/WIDTH, (nextFruit.getFruitLocation().iy()+40)* this.getHeight()/HEIGHT);
+//						Fruit nextFruit = pacman.getP_Path().getFruitsPath().get(fruitIndex + 1) ;						/*iy()+40*/
+//						g1.drawLine(fruitset.getFruitLocation().ix()*this.getWidth()/WIDTH, (fruitset.getFruitLocation().iy()+40)* this.getHeight()/HEIGHT, nextFruit.getFruitLocation().ix()*this.getWidth()/WIDTH, (nextFruit.getFruitLocation().iy()+40)* this.getHeight()/HEIGHT);
 //					}
 //				}
+//				
 //			}
-			
-		}
-		
+//			
+//		}
+//		
 		
 
 		for (Fruit fruit : game.fruitSet) 
 		{
 			int x = fruit.getFruitLocation().ix()*this.getWidth()/WIDTH ;
-			int y = (fruit.getFruitLocation().iy()+40)*this.getHeight()/HEIGHT;
+			int y = (fruit.getFruitLocation().iy())*this.getHeight()/HEIGHT;
 			int width  = 20  ;
 			int height = 20 ;
 			BufferedImage fruitImage = fruit.getFruitImage() ;
-			
-			g1.drawImage(fruit.getFruitImage(),x , y, width, height, this) ;
-//			paintFruit = false ;
-//		
-//		}
+			if(effect.activate == true)
+			{
+				g2.drawImage(fruit.getFruitImage(),x , y, width, height, this) ;
+			}
+			else
+				g1.drawImage(fruit.getFruitImage(),x , y, width, height, this) ;
+
 	}
-		g.drawImage(image,0,0,this);
+		
+		if(effect.activate == true)
+		{
+			
+			int x = effect.getEpoint().ix()*this.getWidth()/WIDTH ;
+			int y = effect.getEpoint().iy()*this.getHeight()/HEIGHT;
+			g2.drawImage(effect.getE_image(),x,y,50,50,this);			
+		}
+		if(effect.activate == true)
+		{
+			g.drawImage(effectI,0,0,this);
+		}
+		else
+			g.drawImage(image,0,0,this);
+
+		
 	}
 		
 	

@@ -1,6 +1,6 @@
 package Geom;
 
-
+import Geom.Point3D;
 
 public interface Geom_element {
 

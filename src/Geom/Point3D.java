@@ -4,6 +4,8 @@ package Geom;
 
 import java.io.Serializable;
 
+import Geom.Point3D;
+
 public class Point3D implements Geom_element, Serializable 
 
 {
@@ -473,6 +475,8 @@ public final static int DOWN = 6, UP = 7;
 	/** transform from radians to angles */
 
 	public static double d2r(double a) { return Math.toRadians(a);}
+
+
 
 	////////////////////////////////////////////////////////////////////////////////
 

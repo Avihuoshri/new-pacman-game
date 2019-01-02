@@ -1,6 +1,7 @@
 package Geom;
 
 import Coords.CoordsConverter;
+import Geom.Point3D;
 /**
  * 
  * @author Orel Bracha Avihu Oshri

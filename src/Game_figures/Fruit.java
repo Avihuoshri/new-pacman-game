@@ -24,14 +24,16 @@ public class Fruit
 	private BufferedImage fruitImage ;
 	private String[] monstersImages ;
 	private Random random ;
-	boolean wasEaten  ;
+	boolean chosedToPath  ;
+	
 	
 	
 	public Fruit(int fruitId , double x_pixel , double y_pixel ,String imagePath)
 	{
 		
 		this.f_id = fruitId ;	
-		p_Location = new Point3D(x_pixel , y_pixel );                  /*בפיקסלים*/                  
+		p_Location = new Point3D(x_pixel , y_pixel );                  /*בפיקסלים*/ 
+		chosedToPath = false ;
 		if(imagePath.length() > 0)
 		{
 			fruitFile = new File(imagePath);
@@ -64,6 +66,18 @@ public class Fruit
 		
 	}
 	
+
+	public double distanceToFruit(Fruit fruit)      /*בדקתי ועובד טוב*/
+	{	double pythagoreanDistance ;
+	int sharedXPoint = Math.abs(this.getFruitLocation().ix() - fruit.getFruitLocation().ix()) ;
+	int sharedYPoint = Math.abs(this.getFruitLocation().iy() - fruit.getFruitLocation().iy()) ;
+
+	sharedXPoint *= sharedXPoint ;
+	sharedYPoint *= sharedYPoint ;
+	pythagoreanDistance = Math.sqrt(  sharedXPoint + sharedYPoint ) ;
+	return pythagoreanDistance ;
+	}
+	
 	public Point3D getFruitLocation()
 	{
 		return p_Location ;
@@ -80,5 +94,14 @@ public class Fruit
 	public BufferedImage getFruitImage() 
 	{
 		return fruitImage;
+	}
+	
+	public void setChosedToPath()
+	{
+		chosedToPath = true ;
+	}
+	public boolean getChosedToPath()
+	{
+		return chosedToPath ;
 	}
 }

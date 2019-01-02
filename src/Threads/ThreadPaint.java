@@ -3,8 +3,8 @@ package Threads;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import javafx.*;
 import Algorithms.ShortestPathAlgo;
+import GUI.Eatting_effect;
 import GUI.pacmanBoard;
 import GUI.pacmanBoard;
 import Game_figures.Fruit;
@@ -17,6 +17,8 @@ public class ThreadPaint extends Thread {
 	int mapW , mapH ;
 	Packman pacman ;
 	Game game ;
+	Eatting_effect effect ;
+					
 	public ThreadPaint(pacmanBoard myFrame , int mapwidth , int mapHeight , Packman pacman)
 	{
 		this.myFrame = myFrame ;
@@ -24,6 +26,7 @@ public class ThreadPaint extends Thread {
 		mapW = mapwidth ;
 		mapH = mapHeight ;
 		game = myFrame.getGame() ;
+		effect = new Eatting_effect() ;
 		
 	}
 	
@@ -77,6 +80,9 @@ public class ThreadPaint extends Thread {
 					game.fruitSet.remove(fruit) ;
 					pacman.getP_Path().getFruitsPath().remove(0) ;			
 					myFrame.setPaintFruit();
+					myFrame.getEffect().setActivate();
+					myFrame.getEffect().setEpoint(fruit);
+					
 //					ShortestPathAlgo spa = new ShortestPathAlgo(game);
 				}
 				paintGame pb = new paintGame(myFrame);
