@@ -332,7 +332,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			AffineTransform at = AffineTransform.getTranslateInstance(pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy()+40)*this.getHeight()/HEIGHT);
 			at.rotate(Math.toRadians(45));
 			Graphics2D g2d = (Graphics2D) g ;
-			g1.drawImage(pacman.getP_Image(), pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy()+40)*this.getHeight()/HEIGHT, this);
+			g.drawImage(pacman.getP_Image(), pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy()+40)*this.getHeight()/HEIGHT, this);
 		}
 		if(pathReady == true)
 		{
