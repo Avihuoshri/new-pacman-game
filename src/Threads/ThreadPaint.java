@@ -49,7 +49,7 @@ public class ThreadPaint extends Thread {
 			fruitEaten = false ;
 			int y ;
 			int newX = pacman.getP_Location().ix() ;
-			Point3D tempPacmanPoint = new Point3D(pacman.getP_Location());
+//			Point3D tempPacmanPoint = new Point3D(pacman.getP_Location());
 
 			while( fruitEaten == false)
 			{
@@ -99,21 +99,6 @@ public class ThreadPaint extends Thread {
 		}
 		}		
 		
-//		
-//		int sizeOfFruit = pacman.getP_Path().getFruitsPath().size() ;
-//		for(int i = 0 ; i< 4; i++)
-//		{
-//			Point3D pacmanPoint = new Point3D(pacman.getP_Location()) ;
-//			Point3D point = new Point3D(pacmanPoint.ix()+1 ,pacmanPoint.iy());
-//			pacman.setPixelLocation(point);
-//			myFrame.repaint();
-////			pacman.getP_Path().getFruitsPath().remove(0) ;
-//			try {
-//				sleep(50);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
 		}
 		
 		

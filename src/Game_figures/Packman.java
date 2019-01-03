@@ -77,24 +77,7 @@ public class Packman extends Thread
 		Point3D fruitPoint = new Point3D(map.pixelToCoords(destination.getFruitLocation().ix(), destination.getFruitLocation().iy(), mapWidth, mapHeight)) ;   /*  in GPS coordinates */
 		double distance = converter.distance3d(pacmanPoint, fruitPoint) ;
 		double time = distance / this.getP_speed() ;		
-//		if(distance > 1)
-//		{
-//			Point3D vectorInMeters = new Point3D(converter.vector3D(pacmanPoint, fruitPoint)) ;
-//			x = vectorInMeters.ix() / time ;
-//			y= vectorInMeters.iy() / time  ;
-//			vectorInMeters = new Point3D(x,y);
-////			System.out.println( " vectorInMeters    ---> " +vectorInMeters);
-//			
-//			Point3D pacman_new_Point = new Point3D(converter.add(pacmanPoint, vectorInMeters)) ;
-//			Point3D pixelPoint = new Point3D(map.coordsToPixels(pacman_new_Point)) ;
-//			this.setPixelLocation(pixelPoint);
-//			System.out.println(pixelPoint);
-//		}
-//		else
-//		{
-//			this.setPixelLocation(destination.getFruitLocation());
-//			game.fruitSet.remove(destination) ;		
-//		}
+
 		return time ;
 	}
 	
