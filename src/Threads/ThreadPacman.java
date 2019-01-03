@@ -9,17 +9,18 @@ import GUI.pacmanBoard;
 import GUI.pacmanBoard;
 import Game_figures.Fruit;
 import Game_figures.Game;
+import Game_figures.Ghost;
 import Game_figures.Packman;
 import Geom.Point3D;
 
-public class ThreadPaint extends Thread {
+public class ThreadPacman extends Thread {
 	pacmanBoard myFrame ;
 	int mapW , mapH ;
 	Packman pacman ;
 	Game game ;
 	Eatting_effect effect ;
 					
-	public ThreadPaint(pacmanBoard myFrame , int mapwidth , int mapHeight , Packman pacman)
+	public ThreadPacman(pacmanBoard myFrame , int mapwidth , int mapHeight , Packman pacman )
 	{
 		this.myFrame = myFrame ;
 		this.pacman = pacman ;

@@ -22,8 +22,10 @@ public class Game
 	public ArrayList<Ghost> ghostSet = new ArrayList();
 	public ArrayList<Packman> pacmanSet = new ArrayList();
 	public ArrayList<Fruit> fruitSet =new  ArrayList();
-
-
+	public Player player  ;
+	
+	boolean gameEnd = false ;
+	int score ;
 	private createGameFromCsv cgf ;
 
 	public Game()
@@ -46,6 +48,7 @@ public class Game
 		double longtitude ;
 		double speed ;
 		double radius ;
+		int score  = 0;
 		if(filePath.length() > 0)
 		{
 			try 
@@ -92,6 +95,8 @@ public class Game
 						radius = Double.parseDouble(elements[6]) ;
 						ghostSet.add(new Ghost(id , speed , pixels)) ;
 					}
+					
+					player = new Player(new Point3D(300,300));
 
 				}	 
 				br.close();
@@ -107,12 +112,29 @@ public class Game
 
 
 
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score += score;
+	}
+
 	public void removefFruits(Packman pacman)
 	{
 		while(pacman.getP_Path().getFruitsPath().size() > 0)
 		{
 			pacman.getP_Path().getFruitsPath().remove(0);
 		}
+	}
+
+	public boolean getGameEnd()
+	{
+		return gameEnd ;
+	}
+
+	public Player getPlayer() {
+		return player;
 	}
 
 }
