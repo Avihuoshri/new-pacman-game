@@ -2,10 +2,8 @@ package Threads;
 
 import GUI.Eatting_effect;
 import GUI.pacmanBoard;
-import Game_figures.Fruit;
 import Game_figures.Game;
 import Game_figures.Ghost;
-import Game_figures.Packman;
 import Game_figures.Player;
 import Geom.Point3D;
 
@@ -38,7 +36,6 @@ public class ThreadGhost extends Thread
 
 	public void  Play(Game game  )
 	{
-		boolean fruitEaten = false ;
 		double distance = 0 ;
 		int newY ;
 		int newX = ghost.getG_point().ix() ;
@@ -71,7 +68,6 @@ public class ThreadGhost extends Thread
 				try {
 					sleep(3000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -81,7 +77,6 @@ public class ThreadGhost extends Thread
 					sleep(50);
 
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				//			System.out.println("PACMAN ID : " +pacman.getId()+ "  distance------>"  + distance);

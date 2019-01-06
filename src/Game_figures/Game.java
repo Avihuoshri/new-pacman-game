@@ -96,7 +96,7 @@ public class Game
 						ghostSet.add(new Ghost(id , speed , pixels)) ;
 					}
 					
-					player = new Player(new Point3D(300,300));
+					
 
 				}	 
 				br.close();
@@ -111,7 +111,10 @@ public class Game
 	}
 
 
-
+public void setPlayer(Point3D initialPoint)
+{
+	player = new Player(initialPoint);
+}
 	public int getScore() {
 		return score;
 	}

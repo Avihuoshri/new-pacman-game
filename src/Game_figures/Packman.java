@@ -63,14 +63,13 @@ public class Packman extends Thread
 	
 	private void setAnimation()
 	{
-		for(int i = 1 ; i<8 ; i++)
+		for(int i = 1 ; i<10 ; i++)
 		{
-			animatedbatman.add("Images//Animated batman//"+i+".png");
+			animatedbatman.add("Images//Animated Robin//"+i+".png");
 		}
 	}
 	public double point_A_toPoint_B(Fruit destination , int mapWidth , int mapHeight , Game game )
 	{
-		double x , y  ;
 		Map map = new Map() ;
 		CoordsConverter converter = new CoordsConverter() ;
 		Point3D pacmanPoint = new Point3D(map.pixelToCoords(this.getP_Location().ix(), this.getP_Location().iy(), mapWidth, mapHeight)) ;                            /* in GPS coordinates */
@@ -129,7 +128,7 @@ public class Packman extends Thread
 	{
 		p_FileImage = new File(animatedbatman.get(animationIndex));
 		animationIndex++ ;
-		if(animationIndex == 7)
+		if(animationIndex == 9)
 		{
 			animationIndex=0 ;
 		}
