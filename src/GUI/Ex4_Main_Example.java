@@ -25,7 +25,7 @@ public class Ex4_Main_Example {
 		Play play1 = new Play(file_name);
 		
 		// 2) Set your ID's - of all the group members
-		play1.setIDs(1111,2222,3333);
+		play1.setIDs(203458484,205695901);
 		
 		// 3)Get the GPS coordinates of the "arena"
 		String map_data = play1.getBoundingBox();

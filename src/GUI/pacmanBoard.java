@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -43,7 +42,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 
 	private JPanel contentPane;
 	public	 int WIDTH = 1433 ;/*1433*/
-	public  int HEIGHT = 642 ; /*642*/
+	public   int HEIGHT = 642 ; /*642*/
 
 	private final double DEFULT_SPEED = 1;
 
@@ -53,21 +52,21 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 	String clickedFruitImage    ="Images/Batman_logo.png" ;
 	BufferedImage arielMap ;
 	BufferedImage pacmanOrFruitImage ;
-	Dimension dimension ;
-	paintFruits fruitPanel ;
+	Dimension dimension   ;
+	paintFruits fruitPanel;
 
-	Game game = new Game() ;
-	MenuBar menuBar  ;
-	Menu openOrSave  ;		
-	Menu drawMenu ;
+	Game game = new Game();
+	MenuBar menuBar       ;
+	Menu openOrSave       ;		
+	Menu drawMenu         ;
 	MenuItem openItem     ;
 	MenuItem saveItem     ;
-	MenuItem fruitItem_1 ;
-	MenuItem playerItem ;
-	MenuItem pacmenItem  ;
-	MenuItem boxItem ;
-	private int mapWidth;
-	private int mapHeight;
+	MenuItem fruitItem_1  ;
+	MenuItem playerItem   ;
+	MenuItem pacmenItem   ;
+	MenuItem boxItem      ;
+	private int mapWidth  ;
+	private int mapHeight ;
 
 	boolean pacmanOn    ;
 	boolean fruit_1_On  ;
@@ -83,8 +82,8 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 	boolean ex4         ;
 	double widthRatio   ;
 	double heightRatio  ;
-	private int fruitIdCounter;
-	private int pacmanIdCounter;
+	private int fruitIdCounter   ;
+	private int pacmanIdCounter  ;
 	private int save_counter = 1 ;
 	Eatting_effect effect ;
 
@@ -106,6 +105,8 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 
 	private void init()
 	{
+		this.addComponentListener(this);
+		
 		effect = new Eatting_effect();
 		pacmanOn   = false ;
 		fruit_1_On = false ;
@@ -172,7 +173,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			ex4 = false ;
 			JFileChooser fc = new JFileChooser() ; 
 			JButton open = new JButton() ;
-			fc.setCurrentDirectory(new java.io.File("Games/ex3_games"));
+			fc.setCurrentDirectory(new java.io.File("Games/ex4_games"));
 			if(fc.showOpenDialog(open) == JFileChooser.APPROVE_OPTION )
 			{		
 				String gamePath = fc.getSelectedFile().getAbsolutePath();
@@ -193,8 +194,47 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			{				
 				String gamePath = fc.getSelectedFile().getAbsolutePath();
 				EX4play = new Play(gamePath) ;
-
-				game = new Game(gamePath);
+				EX4play.setIDs(203458484,205695901);
+				game = new Game(gamePath);                                      /*לפני שמחקתי הודפס אך א זז*/
+				String map_data = EX4play.getBoundingBox();
+				System.out.println("Bounding Box info: "+map_data);
+				ArrayList<String> board_data = EX4play.getBoard();
+				for(int i=0;i<board_data.size();i++) {
+					System.out.println(board_data.get(i));
+				}
+				
+				System.out.println();
+				System.out.println("Init Player Location should be set using the bounding box info");
+				
+				EX4play.setInitLocation(32.1040,35.2061);
+				EX4play.start();
+				
+				
+				int i=0;
+				while(EX4play.isRuning()) {
+					i++;
+			// 7.1) this is the main command to the player (on the server side)
+				EX4play.rotate(36*i); 
+				System.out.println("***** "+i+"******");
+				
+			// 7.2) get the current score of the game
+				String info = EX4play.getStatistics();
+				System.out.println(info);
+			// 7.3) get the game-board current state
+				board_data = EX4play.getBoard();
+				for(int a=0;a<board_data.size();a++) {
+					System.out.println(board_data.get(a));
+				}
+				System.out.println();
+			}
+			// 8) stop the server - not needed in the real implementation.
+			//play1.stop();
+			System.out.println("**** Done Game (user stop) ****");
+			
+			// 9) print the data & save to the course DB
+			String info = EX4play.getStatistics();
+			System.out.println(info);
+		
 				repaint();
 			}
 
@@ -321,21 +361,21 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			if(effect.activate == true)
 			{          
 				/**//**//*box.getBoxImage(), (box.getLowerPoint().ix()+58)*this.getWidth()/WIDTH, (box.getUpperPoint().iy()+20)* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight(), this*/
-				g2.drawImage(box.getBoxImage(), (box.getLowerPoint().ix())*this.getWidth()/WIDTH, (box.getUpperPoint().iy()+44)* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight(), this);
+				g2.drawImage(box.getBoxImage(), (box.getLowerPoint().ix())*this.getWidth()/WIDTH, (box.getUpperPoint().iy())* this.getHeight()/HEIGHT , box.getBoxWidth()*this.getWidth()/WIDTH, box.getBoxHeight()* this.getHeight()/HEIGHT, this);
 				//			g1.fillRect((box.getLowerPoint().ix())*this.getWidth()/WIDTH, (box.getUpperPoint().iy())* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight());
-			}
+			} 
 			else
-				g1.drawImage(box.getBoxImage(), (box.getLowerPoint().ix())*this.getWidth()/WIDTH, (box.getUpperPoint().iy()+44)* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight(), this);
+				g1.drawImage(box.getBoxImage(), (box.getLowerPoint().ix())*this.getWidth()/WIDTH, (box.getUpperPoint().iy())* this.getHeight()/HEIGHT , box.getBoxWidth()*this.getWidth()/WIDTH, box.getBoxHeight()* this.getHeight()/HEIGHT, this);
 
 		}
 		for (Ghost ghost : game.ghostSet) 
 		{
 			if(effect.activate == true)
 			{
-				g2.drawImage(ghost.getG_image(), ghost.getG_point().ix()*this.getWidth()/WIDTH , (ghost.getG_point().iy()+44) *this.getHeight()/HEIGHT, 50, 50, this) ;
+				g2.drawImage(ghost.getG_image(), ghost.getG_point().ix()*this.getWidth()/WIDTH , (ghost.getG_point().iy()) *this.getHeight()/HEIGHT, 50, 50, this) ;
 			}
 			else
-				g1.drawImage(ghost.getG_image(), ghost.getG_point().ix()*this.getWidth()/WIDTH , (ghost.getG_point().iy()+44) *this.getHeight()/HEIGHT, 50, 50, this) ;
+				g1.drawImage(ghost.getG_image(), ghost.getG_point().ix()*this.getWidth()/WIDTH , (ghost.getG_point().iy()) *this.getHeight()/HEIGHT, 50, 50, this) ;
 
 		}
 
@@ -354,18 +394,18 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			Graphics2D g2d = (Graphics2D) g ;
 			if(effect.activate == true)
 			{
-				g2.drawImage(pacman.getP_Image(), pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy()+44)*this.getHeight()/HEIGHT,55,55, this);
+				g2.drawImage(pacman.getP_Image(), pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy())*this.getHeight()/HEIGHT,55,55, this);
 			}
 			else
-				g1.drawImage(pacman.getP_Image(), pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy()+44)*this.getHeight()/HEIGHT,55 , 55, this);
+				g1.drawImage(pacman.getP_Image(), pacman.getP_Location().ix()*this.getWidth()/WIDTH, (pacman.getP_Location().iy())*this.getHeight()/HEIGHT,55 , 55, this);
 
 		}
 
 		Player player = game.getPlayer() ;
 		if(playerClick == true)
 		{
-			g1.drawImage(player.getP_Image(),player.getPlayerLocation().ix()*this.getWidth()/WIDTH,(player.getPlayerLocation().iy()+44)*this.getHeight()/HEIGHT,this);
-			g2.drawImage(player.getP_Image(),player.getPlayerLocation().ix()*this.getWidth()/WIDTH,(player.getPlayerLocation().iy()+44)*this.getHeight()/HEIGHT,this);
+			g1.drawImage(player.getP_Image(),player.getPlayerLocation().ix()*this.getWidth()/WIDTH,(player.getPlayerLocation().iy())*this.getHeight()/HEIGHT,this);
+			g2.drawImage(player.getP_Image(),player.getPlayerLocation().ix()*this.getWidth()/WIDTH,(player.getPlayerLocation().iy())*this.getHeight()/HEIGHT,this);
 
 //			g.drawImage(player.getP_Image(), player.getPlayerLocation().ix()*this.getWidth()/WIDTH, player.getPlayerLocation().iy()*this.getHeight(), 40 , 40 , this);
 		}
@@ -403,7 +443,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		for (Fruit fruit : game.fruitSet) 
 		{
 			int x = fruit.getFruitLocation().ix()*this.getWidth()/WIDTH ;
-			int y = (fruit.getFruitLocation().iy()+44)*this.getHeight()/HEIGHT;
+			int y = (fruit.getFruitLocation().iy())*this.getHeight()/HEIGHT;
 			int width  = 20  ;
 			int height = 20 ;
 			BufferedImage fruitImage = fruit.getFruitImage() ;
@@ -417,14 +457,12 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		}
 
 
-
 		if(effect.activate == true)
 		{
 			g.drawImage(effectI,0,0,this);
 		}
 		else
 			g.drawImage(image,0,0,this);
-
 
 	}
 
@@ -443,7 +481,6 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			}
 //			repaint();
 
-			Thread th = new Thread();
 			for (Packman pacman : game.pacmanSet) 
 			{
 
@@ -472,11 +509,6 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 				System.out.println(board_data.get(i));
 			}
 		}
-	}
-
-	public void drawPath(Packman pacman)
-	{
-
 	}
 
 	public Game getGame()
@@ -523,7 +555,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		else // צריך לטפל בפלייר
 		{
 		System.out.println(e.getX() + "       "  + e.getY());
-		Point3D playerdir = new Point3D(e.getX() ,e.getY() ) ;		
+		Point3D playerdir = new Point3D(e.getX() ,e.getY() +44) ;		
 		game.getPlayer().setDirection(playerdir);
 		
 		ThreadPlayer tplayer = new ThreadPlayer(this);

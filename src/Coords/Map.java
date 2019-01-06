@@ -14,7 +14,7 @@ import Geom.Point3D;
 public class Map 
 {
 	
-	        final int mapWidth = 1433, mapHeight = 642;
+	        final int mapWidth = 1350, mapHeight = 642;
 			
 			 final double mapLongitudeStart =35.20238  , mapLatitudeStart = 32.106046;
 			

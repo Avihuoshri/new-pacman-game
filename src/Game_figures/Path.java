@@ -7,13 +7,8 @@ import Geom.Point3D;
 public class Path 
 {
 	
-	 ArrayList<Fruit> fruitsPath = new ArrayList();
+	private ArrayList<Fruit> fruitsPath = new ArrayList();
 	
-	
-	public ArrayList<Fruit> getFruitsPath() {
-		return fruitsPath;
-	}
-
 	public Path()
 	{
 	
@@ -36,4 +31,7 @@ public class Path
 		return path ;
 	}
 	
+	public ArrayList<Fruit> getFruitsPath() {
+		return fruitsPath;
+	}
 }
