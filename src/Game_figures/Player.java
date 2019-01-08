@@ -14,7 +14,8 @@ import Game_figures.Fruit ;
 public class Player 
 {
 	private Point3D player_location ;
-	
+	private Point3D pixelPoint;
+
 	private Point3D direction ;
 	private int animationIndex  = 0 ;
 	Path p ;
@@ -22,16 +23,15 @@ public class Player
 	CoordsConverter converter ;
 	private BufferedImage p_Image ;
 	ArrayList<String> animatedbatman = new ArrayList() ;
+	double id,speed,radius;
 	
-	public Player()
+	public Player(int id ,Point3D pixelPoint , double speed , double radius)
 	{
-		
-	}
-	public Player(Point3D firstPoint)
-	{
-		player_location = new Point3D(firstPoint);
-//		player_location = new Point3D(400,400);
-		direction = new Point3D(firstPoint) ;
+		this.id=id;
+		this.player_location = new Point3D(pixelPoint);	
+		System.out.println("in Player : player_location = " + player_location);
+		this.speed=speed;
+		this.radius=radius;
 		 setAnimation() ;
 			p_FileImage = new File(animatedbatman.get(animationIndex));
 			if(animationIndex == 8)
@@ -45,7 +45,29 @@ public class Player
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+		System.out.println("fix");
+		
 	}
+//	public Player(Point3D firstPoint)
+//	{
+//		player_location = new Point3D(firstPoint);
+////		player_location = new Point3D(400,400);
+//		direction = new Point3D(firstPoint) ;
+//		 setAnimation() ;
+//			p_FileImage = new File(animatedbatman.get(animationIndex));
+//			if(animationIndex == 8)
+//			{
+//				animationIndex=0 ;
+//			}
+//			try 
+//			{
+//				p_Image = ImageIO.read(p_FileImage);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//	}
 
 	private void setAnimation()
 	{
@@ -55,10 +77,10 @@ public class Player
 		}
 	}
 	
-	public double distanceToFruit(Player player , Fruit fruit)      /*בדקתי ועובד טוב*/
+	public double distanceToFruit(Player player , Point3D fruit)      /*בדקתי ועובד טוב*/
 	{	double pythagoreanDistance ;
-	int Xrange = Math.abs(player.getPlayerLocation().ix() - fruit.getFruitLocation().ix()) ;
-	int Yrange = Math.abs(player.getPlayerLocation().iy() - fruit.getFruitLocation().iy()) ;
+	int Xrange = Math.abs(player.getPlayerLocation().ix() - fruit.ix()) ;
+	int Yrange = Math.abs(player.getPlayerLocation().iy() - fruit.iy()) ;
 
 	Xrange *= Xrange ;
 	Yrange *= Yrange ;

@@ -22,11 +22,12 @@ public class Game
 	public ArrayList<Ghost> ghostSet = new ArrayList();
 	public ArrayList<Packman> pacmanSet = new ArrayList();
 	public ArrayList<Fruit> fruitSet =new  ArrayList();
-	public Player player  ;
+	Point3D playerPoint = new Point3D(0,0) ;
+	private Player player  = new Player(0,playerPoint,2,1) ;
+	int pacmanEatenId = -1 ;
 	
 	boolean gameEnd = false ;
 	int score ;
-	private createGameFromCsv cgf ;
 
 	public Game()
 	{
@@ -37,10 +38,10 @@ public class Game
 	{
 		Map map = new Map() ;
 		File game = new File(filePath) ;
-		Point3D pixels ;
+		FileReader fr;
+		 Point3D pixels ;
 		Point3D coordinates ;
 		Point3D boxCoordinates ;
-		FileReader fr;
 		String[] elements = new String[COLUMNS_NUM] ;
 		int id ;
 		double altitude ;
@@ -95,8 +96,8 @@ public class Game
 						radius = Double.parseDouble(elements[6]) ;
 						ghostSet.add(new Ghost(id , speed , pixels)) ;
 					}
-					
-					
+
+
 
 				}	 
 				br.close();
@@ -110,17 +111,99 @@ public class Game
 		}
 	}
 
+	public Game(ArrayList<String> board_data)
+	{
+		Map map = new Map() ;
+		FileReader fr;
+		 Point3D pixels ;
+		Point3D coordinates ;
+		Point3D boxCoordinates ;
+		String[] elements = new String[COLUMNS_NUM] ;
+		int id ;
+		double altitude ;
+		double latitude ;
+		double longtitude ;
+		double speed ;
+		double radius ;
+		int score  = 0;
+		Player player ;
+		if(board_data.size() > 0)
+		{			
+				String line = board_data.get(0) ;				
+				elements = line.split(",");
+				
+				id = Integer.parseInt(elements[1]) ;
+				latitude = Double.parseDouble(elements[2]);
+				longtitude = Double.parseDouble(elements[3]);		
+				altitude = Double.parseDouble(elements[4]) ;
+				speed = Double.parseDouble(elements[5]) ;
+				coordinates = new Point3D(latitude  , longtitude);
+				pixels = new Point3D(0,0,0) ; /*המרת הנקודה מקורדינטות לפיקסלים*/
+				radius = Double.parseDouble(elements[6]) ;
+				
+				player = new Player(id , pixels , speed , radius);
+				System.out.println("in game : player was created in location ---> " + player.getPlayerLocation());
+				
+				
+				for(int i = 1 ; i < board_data.size() ; i++)
+				{
+					line = board_data.get(i) ;				
 
-public void setPlayer(Point3D initialPoint)
-{
-	player = new Player(initialPoint);
-}
+					elements = line.split(",");
+					id = Integer.parseInt(elements[1]) ;
+					latitude = Double.parseDouble(elements[2]);
+					longtitude = Double.parseDouble(elements[3]);		
+					altitude = Double.parseDouble(elements[4]) ;
+					speed = Double.parseDouble(elements[5]) ;
+					coordinates = new Point3D(latitude , longtitude);
+					pixels = new Point3D(map.coordsToPixels(coordinates)) ; /*המרת הנקודה מקורדינטות לפיקסלים*/
+
+
+					if(elements[0].equals("P"))
+					{
+						radius = Double.parseDouble(elements[6]) ;
+						pacmanSet.add(new Packman(id, pixels.ix(), pixels.iy() , speed  )) ;
+					}
+
+					else if(elements[0].equals("F"))
+					{
+						fruitSet.add(new Fruit(id, pixels.ix(), pixels.iy() , "Images//Batman_logo.png"));
+					}
+
+					else if(elements[0].equals("B"))
+					{
+						radius = Double.parseDouble(elements[6]) ;
+						boxCoordinates = new Point3D(speed ,radius );
+						boxCoordinates = map.coordsToPixels(boxCoordinates);
+						boxSet.add(new Box(pixels , boxCoordinates)) ;
+					}
+
+					else if(elements[0].equals("G"))
+					{
+						radius = Double.parseDouble(elements[6]) ;
+						ghostSet.add(new Ghost(id , speed , pixels)) ;
+					}
+				}	 
+		}
+	}
+	
+	public void setPlayer(Point3D initialPoint)
+	{
+		player.setPlayerLocation(initialPoint);
+	}
 	public int getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
-		this.score += score;
+	public void setScore(int score) 
+	{
+		if((this.score += score) < 0)
+		{
+			this.score = 0 ;
+		}
+		else
+			this.score += score;
+
 	}
 
 	public void removefFruits(Packman pacman)
@@ -131,13 +214,26 @@ public void setPlayer(Point3D initialPoint)
 		}
 	}
 
+	public void pacmanWasEaten(Packman pacman)
+	{
+		pacmanEatenId = pacman.getP_id() ;
+	}
+	
+	public int getPacmanEatenId()
+	{
+		return pacmanEatenId ; 
+	}
 	public boolean getGameEnd()
 	{
 		return gameEnd ;
 	}
 
+	public void gameOver()
+	{
+		 gameEnd = true  ;
+	}
 	public Player getPlayer() {
-		return player;
+		return this.player;
 	}
 
 }

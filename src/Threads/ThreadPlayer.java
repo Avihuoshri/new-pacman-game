@@ -9,12 +9,14 @@ import GUI.pacmanBoard;
 import Game_figures.Box;
 import Game_figures.Fruit;
 import Game_figures.Game;
+import Game_figures.Packman;
 import Game_figures.Player;
 import Geom.Point3D;
 
-public class ThreadPlayer extends Thread implements KeyListener
+public class ThreadPlayer extends Thread 
 {
 	final int DECREASE_POINT = -1 ;
+	final int INCREASE_POINT = 1  ;
 	pacmanBoard myFrame ;
 	int mapW , mapH ;
 	Game game ;
@@ -42,37 +44,22 @@ public class ThreadPlayer extends Thread implements KeyListener
 
 	public void  Play(Game game  )
 	{
-		boolean touchedWall = false ;
-		double distance = 0 ;
+		boolean touchedBox = false ;
+		double fruitDistance = 0  ;
+		double pacmanDistance = 0 ;
 		int newY ;
 		int newX = direction.ix() ;
 		int oldX = game.getPlayer().getPlayerLocation().ix() ;
 		int oldY = game.getPlayer().getPlayerLocation().iy() ;
-		boolean notInBox = true ;
 		Player player = game.getPlayer() ;
 
 		int i = 0 ;
 
-		while(i<10 && touchedWall == false )
+		while(i<10 && game.getGameEnd() == false )
 		{
-			for (Box box : game.boxSet) 
-			{
-				//				System.out.println("box lower point X = " + box.getLowerPoint().ix() + "     box lower point Y = "+box.getLowerPoint().iy());
-				if(oldX >= box.getLowerPoint().ix() && oldX <= box.getUpperPoint().ix() )
-				{
-					if(oldY <= box.getLowerPoint().iy() && oldY>= box.getUpperPoint().iy()) 
-					{
-						notInBox = false ;
-						game.setScore(DECREASE_POINT);
-						i++ ;
-						touchedWall = true ;
-						interrupt();
-
-					}
-				}
-			}
-
-
+			
+//			if(touchedBox == false)
+//			{
 			if(game.getPlayer().getPlayerLocation().ix() < direction.ix())
 			{
 				newX = player.getPlayerLocation().ix() +1 ;
@@ -90,19 +77,41 @@ public class ThreadPlayer extends Thread implements KeyListener
 
 			for (Fruit fruit : game.fruitSet) 
 			{
-				distance = player.distanceToFruit(player, fruit);
-				if(distance < 6)
+				
+				fruitDistance = player.distanceToFruit(player, fruit.getFruitLocation());
+				if(fruitDistance < 6)
 				{
-					game.setScore(1);
+					game.setScore(INCREASE_POINT);
 					game.fruitSet.remove(fruit)  ;
+					for (Packman pacman : game.pacmanSet) 
+					{
+						if(pacman.getP_Path().getFruitsPath().contains(fruit))
+						{
+							pacman.getP_Path().getFruitsPath().remove(fruit) ;
+						}
+					}
 				}
+				
+				for (Packman pacman : game.pacmanSet) 
+				{
+					 
+					pacmanDistance = player.distanceToFruit(player, pacman.getP_Location());
+					if(pacmanDistance < 30)
+					{
+						game.setScore(INCREASE_POINT);
+						game.pacmanWasEaten(pacman);
+						game.pacmanSet.remove(pacman)  ;
+					}
+				}
+				
+				
 			}
 			Point3D newPoint = new Point3D(newX , newY) ;
-			player.setPlayerLocation(newPoint);;
 
-			if(distance<=1)
+			if(fruitDistance<=1)
 			{
 				game.setScore(DECREASE_POINT);
+				System.out.println("SCORE : " + game.getScore());
 				try {
 					sleep(3000);
 				} catch (InterruptedException e) {
@@ -110,20 +119,46 @@ public class ThreadPlayer extends Thread implements KeyListener
 					e.printStackTrace();
 				}
 			}
+			for (Box box : game.boxSet) 
+			{
+				//				System.out.println("box lower point X = " + box.getLowerPoint().ix() + "     box lower point Y = "+box.getLowerPoint().iy());
+				if(newPoint.ix() >= box.getLowerPoint().ix() && newPoint.ix() <= box.getUpperPoint().ix() )
+				{
+					if(newPoint.iy() <= box.getLowerPoint().iy() && newPoint.iy() >= box.getUpperPoint().iy()) 
+					{
+						game.setScore(DECREASE_POINT);
+						System.out.println("SCORE : " + game.getScore());
+						i++ ;
+						touchedBox = true ;
+						newPoint = new Point3D(oldX , oldY) ;
+
+					}
+				}
+			}
+			player.setPlayerLocation(newPoint);
+
 			paintGame pb = new paintGame(myFrame);
 			pb.start();
 			try {
 				sleep(25);
 
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			//			System.out.println("PACMAN ID : " +pacman.getId()+ "  distance------>"  + distance);
 			//		}
 			i++ ;
 		}
-	}
+		
+//		if(game.getGameEnd() == true)
+			
+
+//			else
+//			{
+//				System.out.println("x");
+//			}
+		}
+//	}
 
 
 
@@ -143,24 +178,7 @@ public class ThreadPlayer extends Thread implements KeyListener
 		return y ;
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if(e.equals(obj))
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
+	
+	
 
 }

@@ -61,10 +61,13 @@ public class ThreadGhost extends Thread
 			distance = ghost.distanceToPlayer(player, ghost);
 			Point3D newPoint = new Point3D(newX , newY) ;
 			ghost.setG_point(newPoint);
-			
-			if(distance<=1)
+			if(game.fruitSet.size() == 0)
+			{
+			}
+			if(distance<=1 )
 			{
 				game.setScore(DECREASE_POINT);
+//				System.out.println("SCORE : " + game.getScore());
 				try {
 					sleep(3000);
 				} catch (InterruptedException e) {
@@ -78,6 +81,10 @@ public class ThreadGhost extends Thread
 
 				} catch (InterruptedException e) {
 					e.printStackTrace();
+				}
+				if(game.fruitSet.size() == 0)
+				{
+					game.gameOver();
 				}
 				//			System.out.println("PACMAN ID : " +pacman.getId()+ "  distance------>"  + distance);
 				//		}

@@ -39,12 +39,12 @@ public class Fruit
 			fruitFile = new File(imagePath);
 			try {
 				fruitImage = ImageIO.read(fruitFile) ;
-				System.out.println(" image chosen " + imagePath);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		
 		else{
 			{
 		}

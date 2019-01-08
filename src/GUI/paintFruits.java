@@ -23,7 +23,7 @@ public class paintFruits extends JPanel
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		for (Fruit fruit : pacmanBoard.game.fruitSet) 
+		for (Fruit fruit : pacmanBoard.ex4Game.fruitSet) 
 		{
 			int x = fruit.getFruitLocation().ix()*this.getWidth()/WIDTH ;
 			int y = (fruit.getFruitLocation().iy()+40)*this.getHeight()/HEIGHT;
