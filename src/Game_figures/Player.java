@@ -24,7 +24,7 @@ public class Player
 	private BufferedImage p_Image ;
 	ArrayList<String> animatedbatman = new ArrayList() ;
 	double id,speed,radius;
-	
+
 	public Player(int id ,Point3D pixelPoint , double speed , double radius)
 	{
 		this.id=id;
@@ -32,42 +32,42 @@ public class Player
 		System.out.println("in Player : player_location = " + player_location);
 		this.speed=speed;
 		this.radius=radius;
-		 setAnimation() ;
-			p_FileImage = new File(animatedbatman.get(animationIndex));
-			if(animationIndex == 8)
-			{
-				animationIndex=0 ;
-			}
-			try 
-			{
-				p_Image = ImageIO.read(p_FileImage);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		setAnimation() ;
+		p_FileImage = new File(animatedbatman.get(animationIndex));
+		if(animationIndex == 8)
+		{
+			animationIndex=0 ;
+		}
+		try 
+		{
+			p_Image = ImageIO.read(p_FileImage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		System.out.println("fix");
-		
+
 	}
-//	public Player(Point3D firstPoint)
-//	{
-//		player_location = new Point3D(firstPoint);
-////		player_location = new Point3D(400,400);
-//		direction = new Point3D(firstPoint) ;
-//		 setAnimation() ;
-//			p_FileImage = new File(animatedbatman.get(animationIndex));
-//			if(animationIndex == 8)
-//			{
-//				animationIndex=0 ;
-//			}
-//			try 
-//			{
-//				p_Image = ImageIO.read(p_FileImage);
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//	}
+	//	public Player(Point3D firstPoint)
+	//	{
+	//		player_location = new Point3D(firstPoint);
+	////		player_location = new Point3D(400,400);
+	//		direction = new Point3D(firstPoint) ;
+	//		 setAnimation() ;
+	//			p_FileImage = new File(animatedbatman.get(animationIndex));
+	//			if(animationIndex == 8)
+	//			{
+	//				animationIndex=0 ;
+	//			}
+	//			try 
+	//			{
+	//				p_Image = ImageIO.read(p_FileImage);
+	//			} catch (IOException e) {
+	//				// TODO Auto-generated catch block
+	//				e.printStackTrace();
+	//			}
+	//	}
 
 	private void setAnimation()
 	{
@@ -76,7 +76,7 @@ public class Player
 			animatedbatman.add("Images//Animated Batman//"+i+".png");
 		}
 	}
-	
+
 	public double distanceToFruit(Player player , Point3D fruit)      /*בדקתי ועובד טוב*/
 	{	double pythagoreanDistance ;
 	int Xrange = Math.abs(player.getPlayerLocation().ix() - fruit.ix()) ;
@@ -87,7 +87,7 @@ public class Player
 	pythagoreanDistance = Math.sqrt(  Xrange + Yrange ) ;
 	return pythagoreanDistance ;
 	}
-	
+
 	public BufferedImage getP_Image() 
 	{
 		p_FileImage = new File(animatedbatman.get(animationIndex));
@@ -109,7 +109,7 @@ public class Player
 	{
 		return player_location;
 	}
-	
+
 	public Point3D getDirection() {
 		return direction;
 	}
@@ -118,9 +118,17 @@ public class Player
 	{
 		player_location = new Point3D(newPoint);
 	}
-	
+
 	public void setDirection(Point3D newDPoint)
 	{
 		direction = new Point3D(newDPoint);
+	}
+
+	public 
+	public int linear(Point3D player , Point3D fruit , int x)
+	{
+		double incline = (player.iy() - fruit.iy()) / (player.ix() - fruit.ix());
+		int y = ( int )incline*(x - player.ix()) + player.ix() ;
+		return y ;
 	}
 }

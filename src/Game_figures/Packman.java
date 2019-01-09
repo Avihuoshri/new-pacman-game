@@ -23,7 +23,6 @@ public class Packman extends Thread
 	private Point3D c_loction ;
 	private Point3D pixel_loction ;
 	private Path p_Path ;
-	Path p ;
 	private File p_FileImage  ;
 	CoordsConverter converter ;
 	private BufferedImage p_Image ;
@@ -50,16 +49,16 @@ public class Packman extends Thread
 			e.printStackTrace();
 		}
 	}
-	
-	public void run()
-	{
-		for(int i = 0 ; i <400 ; i++)
-		{
-		Point3D pacmanPoint = new Point3D(this.getP_Location()) ;
-		Point3D point = new Point3D(pacmanPoint.ix()+1 ,pacmanPoint.iy());
-		setPixelLocation( point) ;
-		}
-	}
+//	
+//	public void run()
+//	{
+//		for(int i = 0 ; i <400 ; i++)
+//		{
+//		Point3D pacmanPoint = new Point3D(this.getP_Location()) ;
+//		Point3D point = new Point3D(pacmanPoint.ix()+1 ,pacmanPoint.iy());
+//		setPixelLocation( point) ;
+//		}
+//	}
 	
 	private void setAnimation()
 	{

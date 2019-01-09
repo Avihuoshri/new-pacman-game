@@ -2,12 +2,15 @@ package Game_figures;
 
 import java.util.ArrayList;
 
+import Algorithms.BoxVertexPath;
 import Geom.Point3D;
 
 public class Path 
 {
 	
 	private ArrayList<Fruit> fruitsPath = new ArrayList();
+	private ArrayList<Point3D> BoxPath = new ArrayList();
+
 	
 	public Path()
 	{
@@ -20,7 +23,10 @@ public class Path
 		fruitsPath.add(fruit) ;
 	}
 	
-	
+	public void addToBoxPath(BoxVertexPath bvp)
+	{
+		BoxPath.add(fruit) ;
+	}
 	public String toString()
 	{
 		String path ="" ;

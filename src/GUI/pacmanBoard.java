@@ -182,7 +182,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			ex4 = false ;
 			JFileChooser fc = new JFileChooser() ; 
 			JButton open = new JButton() ;
-			fc.setCurrentDirectory(new java.io.File("Games/ex3_games"));
+			fc.setCurrentDirectory(new java.io.File("Games/ex4_games"));
 			if(fc.showOpenDialog(open) == JFileChooser.APPROVE_OPTION )
 			{		
 				String gamePath = fc.getSelectedFile().getAbsolutePath();

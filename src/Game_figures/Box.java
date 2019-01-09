@@ -12,10 +12,13 @@ public class Box
 {
 
 	
-	Point3D upperPoint , lowerPoint , point;
+	Point3D upper_R_Point ,upper_L_Point , point;
+	Point3D lower_L_Point , lower_R_Point ; 
+	
 	int boxHeight , boxWidth ;
 	private File img_file;
 	private BufferedImage bi;
+	Path boxPath ;
 	public Box(Point3D p) /*receive point with PIXELS values*/
 	{
 		point = new Point3D(p);
@@ -47,15 +50,21 @@ public class Box
 	{
 		if(p1.iy() > p2.iy())
 		{
-			upperPoint = p2 ;
-			lowerPoint = p1 ;
+			upper_R_Point = p2 ;
+			lower_L_Point = p1 ;
+			lower_R_Point = new Point3D(upper_R_Point.x() , lower_L_Point.y());
+			upper_L_Point = new Point3D(lower_L_Point.x() , upper_R_Point.y());
 		}
 		else
 		{
-			upperPoint = p1;
-			lowerPoint = p2;
+			upper_R_Point = p1;
+			lower_L_Point = p2;
+			
+			lower_R_Point = new Point3D(upper_R_Point.x() , lower_L_Point.y());
+			upper_L_Point = new Point3D(lower_L_Point.x() , upper_R_Point.y());
 		}
-
+		
+		
 		
 	}
 	
@@ -74,14 +83,26 @@ public class Box
 
 	}
 	public Point3D getUpperPoint() {
-		return upperPoint;
+		return upper_R_Point;
 	}
 
 	public Point3D getLowerPoint() {
-		return lowerPoint;
+		return lower_L_Point;
 	}
 	public Point3D getPoint() {
 		return point;
 	}
-	
+
+	public Point3D getUpper_R_Point() {
+		return upper_R_Point;
+	}
+	public Point3D getUpper_L_Point() {
+		return upper_L_Point;
+	}
+	public Point3D getLower_L_Point() {
+		return lower_L_Point;
+	}
+	public Point3D getLower_R_Point() {
+		return lower_R_Point;
+	}
 }
