@@ -21,10 +21,21 @@ public class ThreadPlayer extends Thread
 	Point3D direction ;
 	Eatting_effect effect ;
 	
+	/**
+	 * constract the thread of the player
+	 * @param pb
+	 */
+	
 	public ThreadPlayer(pacmanBoard pb  )
 	{
 		Init(pb) ;
 	}
+	
+	/**
+	 * init thr frame to the game
+	 * @param pb
+	 */
+	
 	public void Init(pacmanBoard pb )
 	{
 		myFrame = pb ;
@@ -32,13 +43,20 @@ public class ThreadPlayer extends Thread
 		direction = pb.getGame().getPlayer().getDirection() ;
 	}
 
+	/**
+	 * run the thread
+	 */
+	
 	public void run()
 	{
 		Game game = myFrame.getGame() ;
 		move(game) ;
 	}
 
-
+	/**
+	 * move the player
+	 * @param game
+	 */
 	private void  move(Game game)
 	{
 		boolean touchedBox = false ;
@@ -149,18 +167,16 @@ public class ThreadPlayer extends Thread
 			i++ ;
 		}
 		
-//		if(game.getGameEnd() == true)
-			
 
-//			else
-//			{
-//				System.out.println("x");
-//			}
 		}
-//	}
 
 
-
+	/**
+	 * calculate where is the y point (from the player to the direction)
+	 * @param Player
+	 * @param ghost
+	 * @return
+	 */
 
 	private int whereIsY(Player Player , Point3D direction)
 	{

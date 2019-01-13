@@ -29,6 +29,13 @@ public class Packman extends Thread
 	Map map = new Map() ;
 	ArrayList<String> animatedbatman = new ArrayList() ;
 	
+	/**
+	 * constract pacman
+	 * @param pacmanId
+	 * @param pixel_X
+	 * @param pixel_Y
+	 * @param speed
+	 */
 	public Packman(int pacmanId , double pixel_X , double pixel_Y , double speed   )
 	{
 		p_id = pacmanId ; 
@@ -49,16 +56,10 @@ public class Packman extends Thread
 			e.printStackTrace();
 		}
 	}
-//	
-//	public void run()
-//	{
-//		for(int i = 0 ; i <400 ; i++)
-//		{
-//		Point3D pacmanPoint = new Point3D(this.getP_Location()) ;
-//		Point3D point = new Point3D(pacmanPoint.ix()+1 ,pacmanPoint.iy());
-//		setPixelLocation( point) ;
-//		}
-//	}
+
+	/**
+	 * set the animation
+	 */
 	
 	private void setAnimation()
 	{
@@ -67,6 +68,15 @@ public class Packman extends Thread
 			animatedbatman.add("Images//Animated Robin//"+i+".png");
 		}
 	}
+	
+	/**
+	 * calculate the distance between point A to B
+	 * @param destination
+	 * @param mapWidth
+	 * @param mapHeight
+	 * @param game
+	 * @return
+	 */
 	public double point_A_toPoint_B(Fruit destination , int mapWidth , int mapHeight , Game game )
 	{
 		Map map = new Map() ;
@@ -79,6 +89,10 @@ public class Packman extends Thread
 		return time ;
 	}
 	
+	/**
+	 * calculate the time to the fruit
+	 * @param fruit
+ 	 */
 	
 	public double TimeToFruit( Fruit  fruit) /*בדקתי ועובד טוב*/
 	{
@@ -87,6 +101,12 @@ public class Packman extends Thread
 		return time ;
 	}
 
+	/**
+	 * calculate the distance to frtuit
+	 * @param fruit
+	 * @return
+	 */
+	
 	private double distanceToFruit(Fruit fruit)      /*בדקתי ועובד טוב*/
 	{	double pythagoreanDistance ;
 	int sharedXPoint = Math.abs(this.getP_Location().ix() - fruit.getFruitLocation().ix()) ;
@@ -98,6 +118,10 @@ public class Packman extends Thread
 	return pythagoreanDistance ;
 	}
 	
+	/**
+	 * get the path of the pacman
+	 * @return
+	 */
 	public Path getP_Path()
 	{
 		return p_Path;

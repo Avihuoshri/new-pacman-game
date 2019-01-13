@@ -24,6 +24,14 @@ public class ThreadPacman extends Thread {
 	Eatting_effect effect ;
 	boolean alive = true ;
 
+	/**
+	 * constract the thread pacman
+	 * @param myFrame
+	 * @param mapwidth
+	 * @param mapHeight
+	 * @param pacman
+	 */
+	
 	public ThreadPacman(pacmanBoard myFrame , int mapwidth , int mapHeight , Packman pacman )
 	{
 		this.myFrame = myFrame ;
@@ -35,13 +43,21 @@ public class ThreadPacman extends Thread {
 
 	}
 
+	/**
+	 * run the thread
+	 */
+	
 	public void run()
 	{
 		Game game = myFrame.getGame() ;
 		Play(game) ;
 	}
 
-
+	/**
+	 * play the game
+	 * @param game
+	 */
+	
 	public void  Play(Game game  )
 	{
 		boolean fruitEaten = false ;
@@ -129,6 +145,13 @@ public class ThreadPacman extends Thread {
 
 	}
 
+	/**
+	 * calculate where is the y point (from the pacman to the fruit)
+	 * @param Player
+	 * @param ghost
+	 * @return
+	 */
+	
 	private int whereIsY(Packman pacman , Fruit fruit)
 	{
 		int y ;

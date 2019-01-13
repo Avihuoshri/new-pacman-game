@@ -11,15 +11,32 @@ public class paintFruits extends JPanel
 {
 	pacmanBoard pacmanBoard ;
 	
+	
+	/**
+	 * construct the paint fruit
+	 * @param pb
+	 */
+	
 	public paintFruits(pacmanBoard pb)
 	{
 		pacmanBoard = pb ;
 	}
 	
+	
+	/**
+	 * default constactor
+	 */
+	
+	
 	public void paint()
 	{
 		repaint();
 	}
+	
+	/**
+	 * paint component functions
+	 */
+	
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);

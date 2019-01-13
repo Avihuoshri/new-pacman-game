@@ -10,7 +10,11 @@ import Game_figures.Packman;
 
 public class ShortestPathAlgo 
 {
-
+	/**
+	 * constactor get game and build the shortest path from pac to fruit
+	 * @param game
+	 */
+	
 	public  ShortestPathAlgo(Game game)
 	{
 		int minimumPath ;
@@ -43,6 +47,11 @@ public class ShortestPathAlgo
 		}
 		
 	}
+	
+	/*
+	 * get game minimal index of the pacman temporary pacman index, and resive the shortest path (int)
+	 */
+	
 	private int shortestPath(Game game , int minPacmanIndex , int tempPacmanIndex )
 	{
 		int minPacmanPathSize = game.pacmanSet.get(minPacmanIndex).getP_Path().getFruitsPath().size();

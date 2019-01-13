@@ -25,6 +25,14 @@ public class Player
 	ArrayList<String> animatedbatman = new ArrayList() ;
 	double id,speed,radius;
 
+	/**
+	 * constract the player
+	 * @param id
+	 * @param pixelPoint
+	 * @param speed
+	 * @param radius
+	 */
+	
 	public Player(int id ,Point3D pixelPoint , double speed , double radius)
 	{
 		this.id=id;
@@ -49,26 +57,11 @@ public class Player
 		System.out.println("fix");
 
 	}
-	//	public Player(Point3D firstPoint)
-	//	{
-	//		player_location = new Point3D(firstPoint);
-	////		player_location = new Point3D(400,400);
-	//		direction = new Point3D(firstPoint) ;
-	//		 setAnimation() ;
-	//			p_FileImage = new File(animatedbatman.get(animationIndex));
-	//			if(animationIndex == 8)
-	//			{
-	//				animationIndex=0 ;
-	//			}
-	//			try 
-	//			{
-	//				p_Image = ImageIO.read(p_FileImage);
-	//			} catch (IOException e) {
-	//				// TODO Auto-generated catch block
-	//				e.printStackTrace();
-	//			}
-	//	}
-
+	
+	/**
+	 * set the animations
+	 */
+	
 	private void setAnimation()
 	{
 		for(int i = 1 ; i<8 ; i++)
@@ -77,6 +70,13 @@ public class Player
 		}
 	}
 
+	/**
+	 * calculate the distance between the player and the fruit 
+	 * @param player
+	 * @param fruit
+	 * @return
+	 */
+	
 	public double distanceToFruit(Player player , Point3D fruit)      /*בדקתי ועובד טוב*/
 	{	double pythagoreanDistance ;
 	int Xrange = Math.abs(player.getPlayerLocation().ix() - fruit.ix()) ;
@@ -88,6 +88,11 @@ public class Player
 	return pythagoreanDistance ;
 	}
 
+	/**
+	 * get the player image
+	 * @return
+	 */
+	
 	public BufferedImage getP_Image() 
 	{
 		p_FileImage = new File(animatedbatman.get(animationIndex));
@@ -105,19 +110,41 @@ public class Player
 		}
 		return p_Image;
 	}
+	
+	/**
+	 * get the player location
+	 * @return
+	 */
+	
 	public Point3D getPlayerLocation()
 	{
 		return player_location;
 	}
 
+	/**
+	 * get the diraction
+	 * @return
+	 */
+	
 	public Point3D getDirection() {
 		return direction;
 	}
 
+	/**
+	 * set the player location
+	 * @param newPoint
+	 */
+	
 	public void setPlayerLocation(Point3D newPoint)
 	{
 		player_location = new Point3D(newPoint);
 	}
+	
+	/**
+	 * set the diration of the player
+	 * @param newDPoint
+	 */
+	
 
 	public void setDirection(Point3D newDPoint)
 	{

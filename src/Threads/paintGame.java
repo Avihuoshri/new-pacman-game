@@ -5,11 +5,21 @@ import GUI.pacmanBoard;
 public class paintGame extends Thread
 {
 	pacmanBoard myFrame ;
-	
+
+	/**
+	 * constract the paint game
+	 * @param pb
+	 */
+
 	public paintGame(pacmanBoard pb)
 	{
 		myFrame = pb ;
 	}
+	
+	/**
+	 * run the thread
+	 */
+
 	public   void run()
 	{
 		try {
@@ -20,6 +30,6 @@ public class paintGame extends Thread
 		}
 
 		myFrame.repaint();
-	
+
 	}
 }

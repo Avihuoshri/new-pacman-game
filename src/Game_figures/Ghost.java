@@ -22,6 +22,12 @@ public class Ghost
 	private String[] monstersImages ;
 	private Random random ;
 
+	/**
+	 * constractor of ghost
+	 * @param id
+	 * @param speed
+	 * @param point
+	 */
 	public Ghost(int id , double speed , Point3D point )
 	{
 		G_Id = id ;
@@ -43,7 +49,11 @@ public class Ghost
 
 	}
 
-	
+	/**
+	 * check the distance to the player
+	 * @param player
+	 * @param ghost
+	 */
 	public double distanceToPlayer(Player player , Ghost ghost)      /*בדקתי ועובד טוב*/
 	{	double pythagoreanDistance ;
 	int Xrange = Math.abs(player.getPlayerLocation().ix() - ghost.getG_point().ix()) ;
@@ -54,15 +64,29 @@ public class Ghost
 	pythagoreanDistance = Math.sqrt(  Xrange + Yrange ) ;
 	return pythagoreanDistance ;
 	}
+	
+	/**
+	 * 
+	 * @return the buffer image
+	 */
 	public BufferedImage getG_image()
 	{
 		return bi ;
 	}
+	
+	/**
+	 *  
+	 * @return the pint of the ghost
+	 */
 	public Point3D getG_point()
 	{
 		return G_point ;
 	}
-
+	
+	/**
+	 * set the ghost point
+	 * @param g_point
+	 */
 	public void setG_point(Point3D g_point) {
 		G_point = new Point3D(g_point);
 	}

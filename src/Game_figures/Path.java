@@ -10,13 +10,20 @@ public class Path
 	
 	private ArrayList<Fruit> fruitsPath = new ArrayList();
 	private ArrayList<Point3D> BoxPath = new ArrayList();
-
+	
+	/**
+	 * default constractor
+	 */
 	
 	public Path()
 	{
 	
 	}
 	
+	/**
+	 * add the fruit to the path	
+	 * @param fruit
+	 */
 	
 	public void addToPath(Fruit fruit)
 	{
@@ -27,6 +34,10 @@ public class Path
 	{
 		BoxPath.add(bvp) ;
 	}
+	
+	/**
+	 * to string
+	 */
 	public String toString()
 	{
 		String path ="" ;
@@ -37,6 +48,10 @@ public class Path
 		return path ;
 	}
 	
+	/**
+	 * get the fruits path
+	 * @return
+	 */
 	public ArrayList<Fruit> getFruitsPath() {
 		return fruitsPath;
 	}

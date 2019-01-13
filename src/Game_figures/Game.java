@@ -37,16 +37,19 @@ public class Game
 	private int gameTime = GAME_TIME ;
 
 	
-
-	public int getGameTime() {
-		return gameTime;
-	}
-
-	
+	/**
+	 * default constractor
+	 */
 	public Game()
 	{
 
 	}
+	
+
+	/**
+	 * constractor of the game
+	 * @param string of the path of the game
+	 */
 
 	public Game(String filePath)   /*בדקתי ועובד טוב*/
 	{
@@ -129,6 +132,10 @@ public class Game
 		}
 	}
 
+	/**
+	 * constractor of game
+	 * @param array list of the game board data
+	 */
 	public Game(ArrayList<String> board_data)
 	{
 		Map map = new Map() ;
@@ -205,10 +212,18 @@ public class Game
 		}
 	}
 
+	/**
+	 * set the player
+	 * @param point of Point 
+	 */
 	public void setPlayer(Point3D initialPoint)
 	{
 		player.setPlayerLocation(initialPoint);
 	}
+	/**
+	 * set score
+	 * @param int
+	 */
 	public int getScore() {
 		return score;
 	}
@@ -224,6 +239,10 @@ public class Game
 
 	}
 
+	/**
+	 * remove the fruit from the list
+	 * @param pacman
+	 */
 	public void removefFruits(Packman pacman)
 	{
 		while(pacman.getP_Path().getFruitsPath().size() > 0)
@@ -237,20 +256,37 @@ public class Game
 		return "Score  : " +(score  + gameTime) + "\nKilled by ghost " + ghostKills + "\nPlayer eat " + PlayerEatenFruit + " fruits"
 				+"\nPacman eat " + pacmanEatenFruit + " fruits" +"\nTouched " + playerTouchedBox + " tims the boxes";
 	}
+	
+	/**
+	 * set the pacman as an eatten pacman
+	 * @param pacman
+	 */
 	public void pacmanWasEaten(Packman pacman)
 	{
 		pacmanEatenId = pacman.getP_id() ;
 	}
 
+	/**
+	 * get the id of eaten pacman
+	 * @return
+	 */
 	public int getPacmanEatenId()
 	{
 		return pacmanEatenId ; 
 	}
+	
+	/**
+	 * true if the game end
+	 * false else
+ 	 */
 	public boolean getGameEnd()
 	{
 		return gameEnd ;
 	}
 
+	/**
+	 * set the game as over game
+	 */
 	public void gameOver()
 	{
 		gameEnd = true  ;
@@ -301,4 +337,7 @@ public class Game
 		return gameTime;
 	}
 
+	public int getGameTime() {
+		return gameTime;
+	}
 }

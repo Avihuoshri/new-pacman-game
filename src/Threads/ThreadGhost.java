@@ -17,6 +17,12 @@ public class ThreadGhost extends Thread
 	Game game ;
 	Eatting_effect effect ;
 
+	/**
+	 * constract the thread of the ghost
+	 * @param myFrame
+	 * @param ghost
+	 */
+	
 	public ThreadGhost(pacmanBoard myFrame , Ghost ghost )
 	{
 		this.myFrame = myFrame ;
@@ -28,13 +34,21 @@ public class ThreadGhost extends Thread
 
 	}
 
+	/**
+	 * run the thread
+	 */
+	
 	public void run()
 	{
 		Game game = myFrame.getGame() ;
 		Play(game) ;
 	}
 
-
+	/**
+	 * play the game
+	 * @param game
+	 */
+	
 	public void  Play(Game game  )
 	{
 		double distance = 0 ;
@@ -95,7 +109,13 @@ public class ThreadGhost extends Thread
 
 	
 
-
+	/**
+	 * calculate where is the y point (from the player to the ghost)
+	 * @param Player
+	 * @param ghost
+	 * @return
+	 */
+	
 	private int whereIsY(Player Player , Ghost ghost)
 	{
 		int y ;

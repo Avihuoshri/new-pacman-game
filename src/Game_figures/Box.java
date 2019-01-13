@@ -19,10 +19,20 @@ public class Box
 	private File img_file;
 	private BufferedImage bi;
 	Path boxPath ;
+	
+	/**
+	 * constact box with input point 
+	 * @param p
+	 */
 	public Box(Point3D p) /*receive point with PIXELS values*/
 	{
 		point = new Point3D(p);
 	}
+	
+	/**
+	 * constact box with input 2 points 
+	 * @param p
+	 */
 	public Box(Point3D p1 ,Point3D p2) /*receive point with PIXELS values*/
 	{
 		setPoints(p1,p2) ;
@@ -38,14 +48,27 @@ public class Box
 		}
 	}
 	
+	/**
+	 * get the box hight
+	 * @return int 
+	 */
 	public int getBoxHeight() {
 		return boxHeight;
 	}
 
+	/**
+	 * get the box width
+	 * @return int 
+	 */
 	public int getBoxWidth() {
 		return boxWidth;
 	}
 
+	/**
+	 * set the points of the box with 2 point
+	 * @param p1
+	 * @param p2
+	 */
 	public void setPoints(Point3D p1 ,Point3D p2)
 	{
 		if(p1.iy() > p2.iy())
@@ -68,27 +91,57 @@ public class Box
 		
 	}
 	
+	/**
+	 * get the image
+	 * @return bufferinage
+	 */
+	
 	public BufferedImage getBoxImage()
 	{
 		return bi ;
 	}
+	
+	/**
+	 * @param point p1
+	 * @param point p2
+	 * @return the width in int
+	 */
 	private int Width(Point3D p1 ,Point3D p2)
 	{
 		return Math.abs(p1.ix() - p2.ix()) ;
 	}
 	
+	/**
+	 * @param point p1
+	 * @param point p2
+	 * @return the Height in int
+	 */
 	private int Height(Point3D p1 ,Point3D p2)
 	{
 		return Math.abs(p1.iy() - p2.iy()) ;
 
 	}
+	
+	/**
+	 * 
+	 * @return the upper point of the box
+	 */
 	public Point3D getUpperPoint() {
 		return upper_R_Point;
 	}
 
+	/**
+	 * 
+	 * @return the lower point of the box
+	 */
 	public Point3D getLowerPoint() {
 		return lower_L_Point;
 	}
+	
+	/**
+	 * 
+	 * @return the point 
+	 */
 	public Point3D getPoint() {
 		return point;
 	}

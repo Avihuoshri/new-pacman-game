@@ -20,6 +20,11 @@ public class Eatting_effect
 	boolean activate ;
 	Point3D ePoint ;
 	int index ;
+	
+	/**
+	 * constract eatting effect
+	 */
+	
 	public Eatting_effect()
 	{
 		index = 0 ;
@@ -37,6 +42,12 @@ public class Eatting_effect
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * get the image
+	 * @return
+	 */
+	
 	public BufferedImage getE_image()
 	{
 		img_file = new File(effects[index]);
@@ -54,15 +65,29 @@ public class Eatting_effect
 	return bi ;
 	}
 	
+	/**
+	 * set activate as true
+	 */
+	
 	public void setActivate()
 	{
 		activate = true ;
 	}
 	
+	/**
+	 * set E point as fruit
+	 * @param fruit
+	 */
+	
 	public void setEpoint(Fruit fruit)
 	{
 		ePoint = new Point3D(fruit.getFruitLocation()) ;
 	}
+	
+	/**
+	 * get E point as fruit
+	 * @param fruit
+	 */
 	
 	public Point3D getEpoint()
 	{

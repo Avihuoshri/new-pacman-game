@@ -27,6 +27,13 @@ public class Fruit
 	boolean chosedToPath  ;
 	
 	
+	/**
+	 * constractor with input
+	 * @param fruitId
+	 * @param x_pixel
+	 * @param y_pixel
+	 * @param imagePath
+	 */
 	
 	public Fruit(int fruitId , double x_pixel , double y_pixel ,String imagePath)
 	{
@@ -66,6 +73,11 @@ public class Fruit
 		
 	}
 	
+	/**
+	 * 
+	 * @param get fruit
+	 * @return the distance to the fruit
+	 */
 
 	public double distanceToFruit(Fruit fruit)      /*בדקתי ועובד טוב*/
 	{	double pythagoreanDistance ;
@@ -78,28 +90,53 @@ public class Fruit
 	return pythagoreanDistance ;
 	}
 	
+	/**
+	 * 
+	 * @return the fruit lication
+	 */
 	public Point3D getFruitLocation()
 	{
 		return p_Location ;
 	}
+	
+	/**
+	 * 
+	 * @return the weight of the fruit
+	 */
 	public int getWEIGHT() 
 	{
 		return WEIGHT ;
 	}
+	
+	/**
+	 * 
+	 * @return the id of the fruit
+	 */
 	public int  getId()
 	{
 		return f_id ;
 	}
 	
+	/** 
+	 * @return the image
+	 */
 	public BufferedImage getFruitImage() 
 	{
 		return fruitImage;
 	}
 	
+	/**
+	 * set the fruit in the path
+	 */
 	public void setChosedToPath()
 	{
 		chosedToPath = true ;
 	}
+	/**
+	 * 
+	 * @return true if the fruit chose to path
+	 * false else
+	 */
 	public boolean getChosedToPath()
 	{
 		return chosedToPath ;
