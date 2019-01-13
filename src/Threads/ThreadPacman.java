@@ -67,7 +67,7 @@ public class ThreadPacman extends Thread {
 		{
 			alive = false ;
 		}
-		while(pacman.getP_Path().getFruitsPath().size() > 0)
+		while(pacman.getP_Path().getFruitsPath().size() > 0 &&  game.getgameTime() > 0)
 		{
 
 			Fruit fruit = pacman.getP_Path().getFruitsPath().get(0);

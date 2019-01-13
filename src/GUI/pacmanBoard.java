@@ -354,9 +354,9 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		else
 			g1.drawImage(arielMap,10 ,55, this.getWidth()-17, this.getHeight()-64, this) ;
 
-		g1.setColor(Color.RED);
-		g1.drawLine(200, 500, 900, 500);
-		g2.drawLine(200, 500, 900, 500);
+//		g1.setColor(Color.RED);
+//		g1.drawLine(200, 500, 900, 500);
+//		g2.drawLine(200, 500, 900, 500);
 		for (Box box : ex4Game.boxSet) 
 		{
 			if(effect.activate == true)
@@ -517,7 +517,6 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			for (Packman pacman : ex4Game.pacmanSet) 
 			{
 				int index = ex4Game.pacmanSet.indexOf(pacman);
-				System.out.println(ex4Game.pacmanSet.get(index).getP_Path().toString());
 				
 			}
 			//			repaint();
@@ -547,7 +546,6 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		{
 
 			EX4play.start();
-			System.out.println("EX4play.start();");
 			Move move=new Move(this);
 			move.start();
 		}
@@ -592,7 +590,6 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		//}
 		if(firstTime == true)
 		{
-			System.out.println("player was clicked!!");
 			Point3D PlayerClicked = new Point3D(e.getX() ,e.getY() );
 			ex4Game.getPlayer().setPlayerLocation(PlayerClicked);
 			PlayerClicked = map.pixelToCoords(PlayerClicked.ix(), PlayerClicked.iy(), mapWidth, mapHeight) ;
@@ -604,7 +601,6 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		}
 		else if (firstTime == false && manual == true)  // צריך לטפל בפלייר
 		{
-			System.out.println(e.getX() + "       "  + e.getY());
 			Point3D playerdir = new Point3D(e.getX() ,e.getY() +44) ;		
 			ex4Game.getPlayer().setDirection(playerdir);
 
@@ -617,7 +613,6 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		if(pacmanOn == true)
 		{
 			Packman  pacman = new Packman(pacmanIdCounter , e.getX()*WIDTH/this.getWidth() , e.getY()*HEIGHT/this.getHeight() , DEFULT_SPEED) ;
-			System.out.println(pacman.getP_Location());
 			pacmanIdCounter++ ;
 			ex4Game.pacmanSet.add(pacman) ;
 			repaint();
