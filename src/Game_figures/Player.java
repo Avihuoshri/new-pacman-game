@@ -18,7 +18,7 @@ public class Player
 
 	private Point3D direction ;
 	private int animationIndex  = 0 ;
-	Path p ;
+	Path batmanPath ;
 	private File p_FileImage  ;
 	CoordsConverter converter ;
 	private BufferedImage p_Image ;
@@ -124,11 +124,11 @@ public class Player
 		direction = new Point3D(newDPoint);
 	}
 
-	public 
+	
 	public int linear(Point3D player , Point3D fruit , int x)
 	{
 		double incline = (player.iy() - fruit.iy()) / (player.ix() - fruit.ix());
-		int y = ( int )incline*(x - player.ix()) + player.ix() ;
+		int y = ( int )incline*(x - player.ix()) + player.iy() ;
 		return y ;
 	}
 }

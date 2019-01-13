@@ -14,6 +14,9 @@ import Game_figures.Packman;
 import Geom.Point3D;
 
 public class ThreadPacman extends Thread {
+	
+	final int INCREASE_POINT = 1 ;
+	
 	pacmanBoard myFrame ;
 	int mapW , mapH ;
 	Packman pacman ;
@@ -90,7 +93,10 @@ public class ThreadPacman extends Thread {
 				{
 					fruitEaten = true ;
 					game.fruitSet.remove(fruit) ;
-					pacman.getP_Path().getFruitsPath().remove(0) ;			
+					game.setPacmanEatenFruit(INCREASE_POINT);
+					pacman.getP_Path().getFruitsPath().remove(0) ;	
+					
+					
 					myFrame.setPaintFruit();
 
 					if(pacman.getP_id() == game.getPacmanEatenId())

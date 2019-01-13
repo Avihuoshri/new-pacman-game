@@ -10,6 +10,7 @@ import Geom.Point3D;
 public class ThreadGhost extends Thread
 {	
 	final int DECREASE_POINT = -1 ;
+	final int INCREASE_POINT = 1 ;
 	pacmanBoard myFrame ;
 	int mapW , mapH ;
 	Ghost ghost ;
@@ -40,7 +41,7 @@ public class ThreadGhost extends Thread
 		int newY ;
 		int newX = ghost.getG_point().ix() ;
 		Player player = game.getPlayer() ;
-		while(game.getGameEnd() == false)
+		while(game.getGameEnd() == false && game.getgameTime() > 0 )
 		{
 
 			if(game.getPlayer().getPlayerLocation().ix() > ghost.getG_point().ix())
@@ -67,6 +68,7 @@ public class ThreadGhost extends Thread
 			if(distance<=1 )
 			{
 				game.setScore(DECREASE_POINT);
+				game.setGhostKills(INCREASE_POINT);
 //				System.out.println("SCORE : " + game.getScore());
 				try {
 					sleep(3000);

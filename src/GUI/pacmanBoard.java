@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -25,7 +26,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import Algorithms.ShortestPathAlgo;
-import Coords.CoordsConverter;
 import Coords.Map;
 import Game_figures.Box;
 import Game_figures.Fruit;
@@ -36,11 +36,11 @@ import Game_figures.Player;
 import Geom.Point3D;
 import Robot.Play;
 import Threads.Move;
+import Threads.ThreadAutoPlayer;
 import Threads.ThreadGhost;
-//import Threads.ThreadGhost; /*לשנות כדי שמטלה 3 תעבוד*/
 import Threads.ThreadPacman;
 import Threads.ThreadPlayer;
-//import Threads.ThreadPlayer;/*לשנות כדי שמטלה 3 תעבוד*/
+import Threads.TimeThread;
 
 public class pacmanBoard extends JFrame implements MouseListener , ComponentListener {
 
@@ -85,6 +85,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 	boolean playerClick ;
 	boolean ex3         ;
 	boolean ex4         ;
+	boolean manual      ;
 	double widthRatio   ;
 	double heightRatio  ;
 	private int fruitIdCounter   ;
@@ -126,6 +127,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		ex3 = true         ;
 		ex4 = true         ;
 		firstTime = true   ;
+		manual = false     ;
 		MenuBar menuBar = new MenuBar() ;
 		Menu openOrSave = new Menu("Open / Save") ;		
 
@@ -133,7 +135,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		MenuItem loadEx4    = new MenuItem("Load Ex4 games" ) ;
 		saveItem    = new MenuItem("Save") ;
 
-		Menu drawMenu = new Menu("Draw figures");
+		drawMenu = new Menu("Draw figures");
 		pacmenItem   = new MenuItem("Pacman");
 		fruitItem_1  = new MenuItem("Fruit");
 		playerItem = new MenuItem("Player") ;
@@ -141,8 +143,8 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		boxItem  = new MenuItem("Box") ;
 
 		Menu play = new Menu("Play menu");
-		MenuItem playGame = new MenuItem("Play game");
-
+		MenuItem playManual = new MenuItem("Play manual");
+		MenuItem playAuto = new MenuItem("Play algorithem") ;
 		fruitPanel = new paintFruits(this);
 		fruitPanel.setSize(new Dimension(WIDTH, HEIGHT));
 
@@ -154,7 +156,8 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		drawMenu.add(playerItem);
 		drawMenu.add(boxItem);
 
-		play.add(playGame) ;
+		play.add(playManual) ;
+		play.add(playAuto) ;
 		menuBar.add(openOrSave);
 		menuBar.add(drawMenu);
 		menuBar.add(play);
@@ -175,7 +178,10 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			e.printStackTrace();
 		}
 
-
+		playAuto.addActionListener(e ->
+		{
+			playAuto();
+		});
 		loadEx3.addActionListener(e ->
 		{
 			ex3 = true  ;
@@ -187,11 +193,17 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			{		
 				String gamePath = fc.getSelectedFile().getAbsolutePath();
 				ex4Game = new Game(gamePath);
+
+				//למחוק את זה
+				Point3D p1 = new Point3D(500 , 350);
+				Point3D p2 = new Point3D(700 , 400);
+				System.out.println("LINE CUT : "+  checkIfCutting(p1,p2 )) ;
+
 				repaint();
 			}
 
 		});
-//היום תתמקד על בנייה של האלגוריתם
+		//היום תתמקד על בנייה של האלגוריתם
 		loadEx4.addActionListener(e ->
 		{
 			ex4 = true  ;
@@ -210,7 +222,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 				board_data = EX4play.getBoard();
 				ex4Game = new Game(board_data);
 				System.out.println("in pacmanboard : "+ex4Game.getPlayer());
-				
+
 				for(int i=0;i<board_data.size();i++) {
 					System.out.println(board_data.get(i));
 				}
@@ -234,9 +246,11 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 
 		});
 
-		playGame.addActionListener(e ->
+		playManual.addActionListener(e ->
 		{
 			play();
+			manual = true ;
+
 		});
 		//		saveItem.addActionListener(e ->
 		//		{
@@ -317,24 +331,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 	}
 
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) 
-	{
-		EventQueue.invokeLater(new Runnable() 
-		{
-			public void run() 
-			{
-				try {
-					pacmanBoard frame = new pacmanBoard();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	public void nextMove() {
 		board_data=EX4play.getBoard();
@@ -348,6 +345,8 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		Image effectI = createImage(5000,5000);
 		Graphics g1 = image.getGraphics();
 		Graphics g2 = effectI.getGraphics();
+
+
 		if(effect.activate == true)
 		{
 			g2.drawImage(arielMap,10 ,55, this.getWidth()-17, this.getHeight()-64, this) ;
@@ -355,16 +354,29 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		else
 			g1.drawImage(arielMap,10 ,55, this.getWidth()-17, this.getHeight()-64, this) ;
 
+		g1.setColor(Color.RED);
+		g1.drawLine(200, 500, 900, 500);
+		g2.drawLine(200, 500, 900, 500);
 		for (Box box : ex4Game.boxSet) 
 		{
 			if(effect.activate == true)
-			{          
+			{  
+				final int VERTIX = 20 ;
 				/**//**//*box.getBoxImage(), (box.getLowerPoint().ix()+58)*this.getWidth()/WIDTH, (box.getUpperPoint().iy()+20)* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight(), this*/
 				g2.drawImage(box.getBoxImage(), (box.getLowerPoint().ix())*this.getWidth()/WIDTH, (box.getUpperPoint().iy())* this.getHeight()/HEIGHT , box.getBoxWidth()*this.getWidth()/WIDTH, box.getBoxHeight()* this.getHeight()/HEIGHT, this);
-				//			g1.fillRect((box.getLowerPoint().ix())*this.getWidth()/WIDTH, (box.getUpperPoint().iy())* this.getHeight()/HEIGHT , box.getBoxWidth(), box.getBoxHeight());
+				g2.fillOval(box.getUpper_L_Point().ix()-10, box.getUpper_L_Point().iy()-10, VERTIX, VERTIX);
+				g2.fillOval(box.getUpper_R_Point().ix()-10, box.getUpper_L_Point().iy()-10, VERTIX, VERTIX);
+				g2.fillOval(box.getLower_L_Point().ix()-10, box.getLower_L_Point().iy()-10, VERTIX, VERTIX);
+				g2.fillOval(box.getLower_R_Point().ix()-10, box.getLower_R_Point().iy()-10, VERTIX, VERTIX);
 			} 
 			else
 				g1.drawImage(box.getBoxImage(), (box.getLowerPoint().ix())*this.getWidth()/WIDTH, (box.getUpperPoint().iy())* this.getHeight()/HEIGHT , box.getBoxWidth()*this.getWidth()/WIDTH, box.getBoxHeight()* this.getHeight()/HEIGHT, this);
+			final int VERTIX = 20 ;
+			g1.fillOval(box.getUpper_L_Point().ix()-10, box.getUpper_L_Point().iy()-10, VERTIX, VERTIX);
+			g1.fillOval(box.getUpper_R_Point().ix()-10, box.getUpper_L_Point().iy()-10, VERTIX, VERTIX);
+			g1.fillOval(box.getLower_L_Point().ix()-10, box.getLower_L_Point().iy()-10, VERTIX, VERTIX);
+			g1.fillOval(box.getLower_R_Point().ix()-10, box.getLower_R_Point().iy()-10, VERTIX, VERTIX);
+
 
 		}
 		for (Ghost ghost : ex4Game.ghostSet) 
@@ -456,7 +468,6 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 
 		}
 
-
 		if(effect.activate == true)
 		{
 			g.drawImage(effectI,0,0,this);
@@ -466,7 +477,37 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 
 	}
 
+	public void playAuto()
+	{
+		ShortestPathAlgo spa = new ShortestPathAlgo(ex4Game);
 
+		while(ex4Game.getGameEnd() == false) 
+		{
+			for (Packman pacman : ex4Game.pacmanSet) 
+			{
+
+				ThreadPacman tp = new ThreadPacman(this, WIDTH, HEIGHT , pacman);
+				tp.start();
+
+			}
+		}
+
+		for (Ghost ghost : ex4Game.ghostSet) 
+		{
+			if(ex4Game.fruitSet.size() != 0)
+			{
+				ThreadGhost tg = new ThreadGhost(this , ghost) ; /*לשנות כדי שמטלה 3 תעבוד*/
+				tg.start();
+			}
+		}
+
+		if(playerClick == true)
+		{
+			System.out.println("starting algorithm");
+			ThreadAutoPlayer tap = new ThreadAutoPlayer(this);
+		}
+
+	}
 	public void play()
 	{
 		if(ex3 == true)
@@ -477,7 +518,7 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			{
 				int index = ex4Game.pacmanSet.indexOf(pacman);
 				System.out.println(ex4Game.pacmanSet.get(index).getP_Path().toString());
-
+				
 			}
 			//			repaint();
 
@@ -496,13 +537,15 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 					tg.start();
 				}
 			}
+			TimeThread time = new TimeThread(this);
+			time.start();
 
 
 
 		}
 		else if(ex4 == true)
 		{
-			
+
 			EX4play.start();
 			System.out.println("EX4play.start();");
 			Move move=new Move(this);
@@ -559,14 +602,14 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			playerClick = true ;
 			repaint() ;
 		}
-		else // צריך לטפל בפלייר
+		else if (firstTime == false && manual == true)  // צריך לטפל בפלייר
 		{
 			System.out.println(e.getX() + "       "  + e.getY());
 			Point3D playerdir = new Point3D(e.getX() ,e.getY() +44) ;		
 			ex4Game.getPlayer().setDirection(playerdir);
 
-						ThreadPlayer tplayer = new ThreadPlayer(this);    /*לשנות כדי שמטלה 3 תעבוד*/
-						tplayer.start();
+			ThreadPlayer tplayer = new ThreadPlayer(this);    
+			tplayer.start();
 
 			repaint();
 		}
@@ -587,20 +630,20 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 			fruitIdCounter++ ;
 			repaint();
 		}
-//		Point3D targetClicked=new Point3D(x1,y1,0);
-//		targetClicked=map.pixelToCoords(targetClicked.ix(), targetClicked.iy(), mapWidth, mapHeight);
-//		System.out.println(targetClicked);
-//		Point3D playerPoint=new Point3D(ex4Game.getPlayer().getPlayerLocation());
-//		playerPoint=map.pixelToCoords(playerPoint.ix(), playerPoint.iy(), mapWidth, mapHeight);
-//		System.out.println(playerPoint);
-//		CoordsConverter converter=new CoordsConverter();
-//		azimuth=converter.azimuth_elevation_dist(playerPoint, targetClicked);
-//		azimuth[0]=360-(azimuth[0])+90;
-//
-//		while(azimuth[0]<0) {
-//			azimuth[0] =(azimuth[0]+ 360);
-//		}
-//		azimuth[0]=(azimuth[0]%360);
+		//		Point3D targetClicked=new Point3D(x1,y1,0);
+		//		targetClicked=map.pixelToCoords(targetClicked.ix(), targetClicked.iy(), mapWidth, mapHeight);
+		//		System.out.println(targetClicked);
+		//		Point3D playerPoint=new Point3D(ex4Game.getPlayer().getPlayerLocation());
+		//		playerPoint=map.pixelToCoords(playerPoint.ix(), playerPoint.iy(), mapWidth, mapHeight);
+		//		System.out.println(playerPoint);
+		//		CoordsConverter converter=new CoordsConverter();
+		//		azimuth=converter.azimuth_elevation_dist(playerPoint, targetClicked);
+		//		azimuth[0]=360-(azimuth[0])+90;
+		//
+		//		while(azimuth[0]<0) {
+		//			azimuth[0] =(azimuth[0]+ 360);
+		//		}
+		//		azimuth[0]=(azimuth[0]%360);
 	}
 
 
@@ -655,4 +698,96 @@ public class pacmanBoard extends JFrame implements MouseListener , ComponentList
 		return EX4play ;
 	}
 
+	public boolean checkIfCutting(Point3D L , Point3D R)
+	{
+		Point3D linearPointA = new Point3D(200 , 500) ;
+		Point3D linearPointB = new Point3D(900 , 500) ;
+		for (Box box : ex4Game.boxSet) 
+		{
+			Point3D LeftUp    = new Point3D(box.getUpper_L_Point()) ;
+			Point3D LeftDown  = new Point3D(box.getLower_L_Point()) ; 
+			Point3D RightUp   = new Point3D(box.getUpper_R_Point()) ;
+			Point3D RightDown = new Point3D(box.getLower_R_Point()) ;
+
+			int linear =smartLinear(linearPointA, linearPointB, RightDown.iy(), 'y') ;
+			if(linear == RightDown.ix())
+			{
+				if(linear < RightDown.iy() && linear > RightUp.iy())
+				{
+					return true ;
+				}
+			}
+			linear =smartLinear(linearPointA, linearPointB, LeftUp.ix(), 'x') ;
+			if(linear == LeftUp.iy())
+			{
+				if(linear > LeftUp.ix() && linear < RightUp.ix())
+				{
+					return true ;
+				}
+			}
+
+
+			linear =smartLinear(linearPointA, linearPointB, LeftDown.iy(), 'y') ;
+			if(linear == LeftDown.ix())
+			{
+				if(linear < LeftDown.iy() && linear > LeftUp.iy())
+				{
+					return true ;
+				}
+			}
+
+			linear =smartLinear(linearPointA, linearPointB, LeftDown.ix(), 'x') ;
+			if(linear == LeftDown.iy())
+			{
+				if(linear > LeftDown.ix() && linear < RightDown.ix())
+				{
+					return true ;
+				}
+			}
+		}
+
+		return false ;
+	}
+
+
+	public int smartLinear(Point3D L , Point3D R , int num , char X_Or_Y)
+	{
+		if(L.ix() == R.ix())
+		{
+			return L.iy();
+		}
+		double incline = (L.y() - R.y()) / (L.x() - R.x());
+
+
+		if(X_Or_Y == 'x')
+		{
+			int y = ( int ) (incline*(num - L.x()) + L.y()) ;
+			return y ;
+		}
+		else
+		{
+			int x = (int) (((num - L.y()) / incline) + L.x()) ;
+			return x ;
+		}
+	}
+
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) 
+	{
+		EventQueue.invokeLater(new Runnable() 
+		{
+			public void run() 
+			{
+				try {
+					pacmanBoard frame = new pacmanBoard();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 }

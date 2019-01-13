@@ -18,6 +18,7 @@ import Geom.Point3D;
 public class Game 
 {
 	final int COLUMNS_NUM = 7 ;
+	private final int GAME_TIME = 100 ;
 	public ArrayList<Box> boxSet =new  ArrayList();
 	public ArrayList<Ghost> ghostSet = new ArrayList();
 	public ArrayList<Packman> pacmanSet = new ArrayList();
@@ -25,11 +26,23 @@ public class Game
 
 	Point3D playerPoint = new Point3D(0,0) ;
 	private Player player  = new Player(0,playerPoint,2,1) ;
-	int pacmanEatenId = -1 ;
+	private int pacmanEatenId = -1 ;
 
-	boolean gameEnd = false ;
-	int score ;
+	private boolean gameEnd = false ;
+	private int score ;
+	private int ghostKills ;
+	private int PlayerEatenFruit ;
+	private int pacmanEatenFruit ;
+	private int playerTouchedBox ;
+	private int gameTime = GAME_TIME ;
 
+	
+
+	public int getGameTime() {
+		return gameTime;
+	}
+
+	
 	public Game()
 	{
 
@@ -37,6 +50,11 @@ public class Game
 
 	public Game(String filePath)   /*בדקתי ועובד טוב*/
 	{
+		 score = 0 ;
+		 ghostKills = 0 ;
+		 PlayerEatenFruit = 0 ;
+		 pacmanEatenFruit = 0 ;
+		 gameTime = 100 ;
 		Map map = new Map() ;
 		File game = new File(filePath) ;
 		FileReader fr;
@@ -50,7 +68,6 @@ public class Game
 		double longtitude ;
 		double speed ;
 		double radius ;
-		int score  = 0;
 		if(filePath.length() > 0)
 		{
 			try 
@@ -215,6 +232,11 @@ public class Game
 		}
 	}
 
+	public String toString()
+	{
+		return "Score  : " +(score  + gameTime) + "\nKilled by ghost " + ghostKills + "\nPlayer eat " + PlayerEatenFruit + " fruits"
+				+"\nPacman eat " + pacmanEatenFruit + " fruits" +"\nTouched " + playerTouchedBox + " tims the boxes";
+	}
 	public void pacmanWasEaten(Packman pacman)
 	{
 		pacmanEatenId = pacman.getP_id() ;
@@ -232,9 +254,51 @@ public class Game
 	public void gameOver()
 	{
 		gameEnd = true  ;
+		System.out.println(this.toString());
 	}
 	public Player getPlayer() {
 		return this.player;
+	}
+
+
+	public int getGhostKills() {
+		return ghostKills;
+	}
+
+	public void setGhostKills(int ghostKills) {
+		this.ghostKills += ghostKills;
+	}
+
+	public int getPlayerEatenFruit() {
+		return PlayerEatenFruit;
+	}
+
+	public void setPlayerEatenFruit(int playerEatenFruit) {
+		PlayerEatenFruit += playerEatenFruit;
+	}
+
+	public int getPacmanEatenFruit() {
+		return pacmanEatenFruit;
+	}
+
+	public void setPacmanEatenFruit(int pacmanEatenFruit) {
+		this.pacmanEatenFruit += pacmanEatenFruit;
+	}
+	
+	public int getPlayerTouchedBox() {
+		return playerTouchedBox;
+	}
+
+	public void setPlayerTouchedBox(int playerTouchedBox) {
+		this.playerTouchedBox += playerTouchedBox;
+	}
+
+	public void setgameTime(int gameTime) {
+		this.gameTime += gameTime;
+	}
+
+	public int getgameTime() {
+		return gameTime;
 	}
 
 }

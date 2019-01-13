@@ -10,7 +10,9 @@ public class Path
 	
 	 ArrayList<Fruit> fruitsPath = new ArrayList();
 	 ArrayList<ArrayList<Point3D>>fullPath = new ArrayList<ArrayList<Point3D>>();
-	
+	 ArrayList<Point3D>player_F_Path = new ArrayList();
+	 ArrayList<Point3D>player_B_Path = new ArrayList();
+
 	
 	public ArrayList<Fruit> getFruitsPath() {
 		return fruitsPath;
@@ -30,7 +32,10 @@ public class Path
 		fruitsPath.add(fruit) ;
 	}
 	
-	
+	public void addPlayer_B_Path(Point3D vertix)
+	{
+		player_B_Path.add(vertix) ;
+	}
 	public String toString()
 	{
 		String path ="" ;

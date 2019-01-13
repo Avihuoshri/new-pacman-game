@@ -1,9 +1,6 @@
 package Threads;
 
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
 import GUI.Eatting_effect;
 import GUI.pacmanBoard;
 import Game_figures.Box;
@@ -23,7 +20,7 @@ public class ThreadPlayer extends Thread
 	Fruit fruit ;
 	Point3D direction ;
 	Eatting_effect effect ;
-
+	
 	public ThreadPlayer(pacmanBoard pb  )
 	{
 		Init(pb) ;
@@ -38,11 +35,11 @@ public class ThreadPlayer extends Thread
 	public void run()
 	{
 		Game game = myFrame.getGame() ;
-		Play(game) ;
+		move(game) ;
 	}
 
 
-	public void  Play(Game game  )
+	private void  move(Game game)
 	{
 		boolean touchedBox = false ;
 		double fruitDistance = 0  ;
@@ -55,7 +52,7 @@ public class ThreadPlayer extends Thread
 
 		int i = 0 ;
 
-		while(i<10 && game.getGameEnd() == false )
+		while(i<10 && game.getGameEnd() == false && game.getgameTime() > 0 )
 		{
 			
 //			if(touchedBox == false)
@@ -82,6 +79,7 @@ public class ThreadPlayer extends Thread
 				if(fruitDistance < 6)
 				{
 					game.setScore(INCREASE_POINT);
+					game.setPlayerEatenFruit(INCREASE_POINT);
 					game.fruitSet.remove(fruit)  ;
 					for (Packman pacman : game.pacmanSet) 
 					{
@@ -106,19 +104,19 @@ public class ThreadPlayer extends Thread
 				
 				
 			}
+		
 			Point3D newPoint = new Point3D(newX , newY) ;
 
-			if(fruitDistance<=1)
-			{
-				game.setScore(DECREASE_POINT);
-				System.out.println("SCORE : " + game.getScore());
-				try {
-					sleep(3000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+//			if(fruitDistance<=1)
+//			{
+//				game.setScore(DECREASE_POINT);
+//				try {
+//					sleep(3000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
 			for (Box box : game.boxSet) 
 			{
 				//				System.out.println("box lower point X = " + box.getLowerPoint().ix() + "     box lower point Y = "+box.getLowerPoint().iy());
@@ -127,6 +125,7 @@ public class ThreadPlayer extends Thread
 					if(newPoint.iy() <= box.getLowerPoint().iy() && newPoint.iy() >= box.getUpperPoint().iy()) 
 					{
 						game.setScore(DECREASE_POINT);
+						game.setPlayerTouchedBox(INCREASE_POINT);
 						System.out.println("SCORE : " + game.getScore());
 						i++ ;
 						touchedBox = true ;

@@ -25,7 +25,7 @@ public class Path
 	
 	public void addToBoxPath(BoxVertexPath bvp)
 	{
-		BoxPath.add(fruit) ;
+		BoxPath.add(bvp) ;
 	}
 	public String toString()
 	{
